@@ -33,7 +33,7 @@ export default function RegisterUser() {
           },
           body: JSON.stringify({
             email: formData.get('email'),
-            username: formData.get('username'),
+            username: formData.get('username').trim(),
             password: formData.get('password')
           }),
         })
