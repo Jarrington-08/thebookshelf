@@ -40,9 +40,9 @@ public class AuthenticationController {
         Optional<User> optUserEmail = userRepository.findByEmail(registerRequestDTO.getEmail());
 
         if (optUserUsername.isPresent()) {
-           return ResponseEntity.badRequest().body(new LoginResponseDTO(0,"Username unavailable"));
+           return ResponseEntity.badRequest().body(new LoginResponseDTO(null,"Username unavailable"));
         } else if (optUserEmail.isPresent()) {
-            return ResponseEntity.badRequest().body(new LoginResponseDTO(0,"Email already registered"));
+            return ResponseEntity.badRequest().body(new LoginResponseDTO(null,"Email already registered"));
         } else {
             User newUser = new User(registerRequestDTO.getUsername(), registerRequestDTO.getEmail(), registerRequestDTO.getPassword());
             userRepository.save(newUser);
@@ -71,11 +71,11 @@ public class AuthenticationController {
                     return ResponseEntity.ok(new LoginResponseDTO(user.getId(), "Success !"));
                 }
             } else {
-                return ResponseEntity.badRequest().body((new LoginResponseDTO(0,"Please click the verification link in your email.")));
+                return ResponseEntity.badRequest().body((new LoginResponseDTO(null,"Please click the verification link in your email.")));
             }
 
         }
-        return ResponseEntity.badRequest().body(new LoginResponseDTO(0,"Invalid email or password"));
+        return ResponseEntity.badRequest().body(new LoginResponseDTO(null,"Invalid email or password"));
     }
 
     @RequestMapping(value="/confirm-account", method= {RequestMethod.GET, RequestMethod.POST})
@@ -105,6 +105,6 @@ public class AuthenticationController {
             userRepository.save(user);
             return ResponseEntity.ok(new LoginResponseDTO(user.getId(), "Success !"));
         }
-        return ResponseEntity.ok(new LoginResponseDTO(0,"Password changed successfully"));
+        return ResponseEntity.ok(new LoginResponseDTO(null,"Password changed successfully"));
     }
 }
