@@ -10,5 +10,5 @@ import java.util.List;
 //Should users have their own book repo? NO Because the api call can request only books associated with userID
 public interface BookRepository extends CrudRepository<Book, Integer> {
 
-    List<Book> findByUserId(int user_id);
+//    List<Book> findByUserId(int user_id);
 }

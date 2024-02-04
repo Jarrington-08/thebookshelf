@@ -1,6 +1,7 @@
 package org.launchcode.bookshelfcorner.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -12,8 +13,9 @@ public class Book extends AbstractEntity {
     @NotNull
     private String author;
 
+    //At some point need to make this Genre object and @ManyToMany annotation?
     @NotNull
-    private Genre genre;
+    private String genre;
     @NotNull
     private String ISBN;
 
@@ -21,7 +23,7 @@ public class Book extends AbstractEntity {
 
     public Book() {}
 
-    public Book(String aTitle, String anAuthor, Genre aGenre, String anISBN) {
+    public Book(String aTitle, String anAuthor, String aGenre, String anISBN) {
         super();
         this.title = aTitle;
         this.author = anAuthor;
@@ -46,11 +48,11 @@ public class Book extends AbstractEntity {
         this.author = author;
     }
 
-    public Genre getGenre() {
+    public String getGenre() {
         return genre;
     }
 
-    public void setGenre(Genre genre) {
+    public void setGenre(String genre) {
         this.genre = genre;
     }
 
