@@ -16,9 +16,7 @@ public class Genre extends AbstractEntity {
     @NotNull
     private String genreName;
 
-    public Genre() {
-
-    }
+    public Genre() {}
 
     public Genre(String aGenreName) {
         super();
