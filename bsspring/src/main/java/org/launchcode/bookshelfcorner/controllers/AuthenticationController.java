@@ -36,15 +36,15 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<LoginResponseDTO> performRegister(@Valid @RequestBody RegisterRequestDTO registerRequestDTO){
 
-        Optional<User> optUserUsername = userRepository.findByUsername(registerRequestDTO.getUsername());
-        Optional<User> optUserEmail = userRepository.findByEmail(registerRequestDTO.getEmail());
+        Optional<User> optUserUsername = userRepository.findByUsername(registerRequestDTO.getUsername().trim());
+        Optional<User> optUserEmail = userRepository.findByEmail(registerRequestDTO.getEmail().trim());
 
         if (optUserUsername.isPresent()) {
            return ResponseEntity.badRequest().body(new LoginResponseDTO(null,"Username unavailable"));
         } else if (optUserEmail.isPresent()) {
             return ResponseEntity.badRequest().body(new LoginResponseDTO(null,"Email already registered"));
         } else {
-            User newUser = new User(registerRequestDTO.getUsername(), registerRequestDTO.getEmail(), registerRequestDTO.getPassword());
+            User newUser = new User(registerRequestDTO.getUsername().trim(), registerRequestDTO.getEmail().trim(), registerRequestDTO.getPassword());
             userRepository.save(newUser);
 
             ConfirmationToken confirmationToken = new ConfirmationToken(newUser);
@@ -63,7 +63,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> performLogin(@Valid @RequestBody LoginRequestDTO loginRequestDTO){
-        Optional<User> optUser = userRepository.findByEmail(loginRequestDTO.getEmail());
+        Optional<User> optUser = userRepository.findByEmail(loginRequestDTO.getEmail().trim());
         if (optUser.isPresent()) {
             User user = (User) optUser.get();
             if (user.isEnabled()) {
