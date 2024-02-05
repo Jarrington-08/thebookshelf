@@ -39,7 +39,7 @@ public class UserController {
        Optional optUser = userRepository.findById(userId);
        if (optUser.isPresent()) {
            User user = (User) optUser.get();
-           Genre newGenre = new Genre(genre);
+           Genre newGenre = new Genre(genre.trim());
            newGenre.setUser(user);
            user.addGenre(newGenre);
            genreRepository.save(newGenre);
@@ -67,26 +67,26 @@ public class UserController {
         return "Genre deleted";
    }
 
-   //Users can update a particular genre in their profile
-   @PutMapping("/updateGenre/{genreId}")
-   public String updateGenre(@PathVariable int genreId, @RequestBody String genreName) {
-       Optional<Genre> optGenre = genreRepository.findById(genreId);
-       if (optGenre.isPresent()) {
-           Genre genre = (Genre) optGenre.get();
-           genre.setGenreName(genreName);
-           genreRepository.save(genre);
-       } else {
-           return "Genre not found";
-       }
-       return "Genre updated";
-   }
+   //Users can update a particular genre in their profile. I never got this to work correctly with React
+//   @PutMapping("/updateGenre/{genreId}")
+//   public String updateGenre(@PathVariable int genreId, @RequestBody String genreName) {
+//       Optional<Genre> optGenre = genreRepository.findById(genreId);
+//       if (optGenre.isPresent()) {
+//           Genre genre = (Genre) optGenre.get();
+//           genre.setGenreName(genreName);
+//           genreRepository.save(genre);
+//       } else {
+//           return "Genre not found";
+//       }
+//       return "Genre updated";
+//   }
 
     @PostMapping("/addFavoriteBook/{userId}")
     public String saveFavoriteBook(@PathVariable int userId, @RequestBody String book) {
         Optional optUser = userRepository.findById(userId);
         if (optUser.isPresent()) {
             User user = (User) optUser.get();
-            FavoriteBook newBook = new FavoriteBook(book);
+            FavoriteBook newBook = new FavoriteBook(book.trim());
             newBook.setUser(user);
             user.addFavoriteBook(newBook);
             favoriteBookRepository.save(newBook);
@@ -113,19 +113,19 @@ public class UserController {
         return "Genre deleted";
     }
 
-    //Users can update a particular genre in their profile
-    @PutMapping("/updateFavoriteBook/{bookId}")
-    public String updateFavoriteBook(@PathVariable int bookId, @RequestBody String bookName) {
-        Optional<FavoriteBook> optBook = favoriteBookRepository.findById(bookId);
-        if (optBook.isPresent()) {
-            FavoriteBook book = (FavoriteBook) optBook.get();
-            book.setBookName(bookName);
-            favoriteBookRepository.save(book);
-        } else {
-            return "Genre not found";
-        }
-        return "Genre updated";
-    }
+    //Users can update a particular genre in their profile. I never got this to work correctly with React
+//    @PutMapping("/updateFavoriteBook/{bookId}")
+//    public String updateFavoriteBook(@PathVariable int bookId, @RequestBody String bookName) {
+//        Optional<FavoriteBook> optBook = favoriteBookRepository.findById(bookId);
+//        if (optBook.isPresent()) {
+//            FavoriteBook book = (FavoriteBook) optBook.get();
+//            book.setBookName(bookName);
+//            favoriteBookRepository.save(book);
+//        } else {
+//            return "Genre not found";
+//        }
+//        return "Genre updated";
+//    }
 
    //Users can see their username in their profile
     @ResponseBody
@@ -149,7 +149,7 @@ public class UserController {
             return "Username unavailable";
         } else {
             User user = (User) optUser.get();
-            user.setUsername(username);
+            user.setUsername(username.trim());
             userRepository.save(user);
             return "Username updated successfully";
         }
@@ -182,7 +182,7 @@ public class UserController {
         Optional optUser = userRepository.findById(userId);
         if (optUser.isPresent()) {
             User user = (User) optUser.get();
-            user.setLocation(location);
+            user.setLocation(location.trim());
             userRepository.save(user);
         }
     }
@@ -204,7 +204,7 @@ public class UserController {
         Optional optUser = userRepository.findById(userId);
         if (optUser.isPresent()) {
             User user = (User) optUser.get();
-            user.setContactInfo(contactInfo);
+            user.setContactInfo(contactInfo.trim());
             userRepository.save(user);
         }
     }
