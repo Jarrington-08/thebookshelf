@@ -30,6 +30,8 @@ public class User extends AbstractEntity {
 //    @OneToMany(mappedBy = "createdBy")
 //    private List<Review> reviews= new ArrayList<>();
 
+    //List vs ArrayList (which one is 'correct' also is the usage of List rather than ArrayList part of why my manytomany relationship didn't work for genres?
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonBackReference
     private List<FavoriteBook> favoriteBookList;
