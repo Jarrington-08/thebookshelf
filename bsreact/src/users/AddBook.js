@@ -17,22 +17,25 @@ const handleInputChangeSearch = (e) => {
 useEffect(() => {
 
     //if handleInputChangeSearch function makes GB api call is this necessary??
-    const fetchBooks = async () => {
-        //api call for onChange input
+    const handleSubmitSearch = async () => {
+        await fetch("https://www.googleapis.com/books/v1/volumes?q=search+terms")
     };
 
     const addBook = async () => {
         //api call for onChange input
     };
 
-    fetchBooks();
+    handleSubmitSearch();
     addBook();
 
     },[]);
 
     return(
         <body>
-            <input type="text" value={searchTerm} placeholder='Add a book' onChange={handleInputChangeSearch}/>
+            <form onSubmit={handleSubmitSearch}>
+                <input type="text" value={searchTerm} placeholder='Add a book' onChange={handleInputChangeSearch}/>
+                <input type="submit" value="Search"/>
+            </form>
         </body>
     )
 
