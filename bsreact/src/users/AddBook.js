@@ -14,12 +14,17 @@ const handleInputChangeSearch = (e) => {
     setSearchTerm(e.target.value);
     //make GB api call here
 }
-function handleSubmitSearch() {
-    fetch("https://www.googleapis.com/books/v1/volumes?q="+{searchTerm}+"&key="+{key}, {
-        method: "GET",
-        headers: {
-            "content-type": "application/json",
+function handleSubmitSearch(event) {
+            searchTerm.toString();
+            event.preventDefault();
+            fetch("https://content-books.googleapis.com/books/v1/volumes?q="+searchTerm+"&key="+key, {
+            "headers": {
+                "accept": "*/*",
+                "accept-language": "en-US,en;q=0.9",
+                "Referer": "http://localhost:3000",
         },
+        "body": null,
+        "method": "GET"
         })
         .then((response) => response.json())
         .then((data) => {
@@ -28,7 +33,7 @@ function handleSubmitSearch() {
         //is .catch((error) => error); needed here? what does it do? Reserach this
         console.log(key);
         console.log(searchTerm);
-        console.log(books);
+        // console.log(books);
 };
 
 // useEffect(() => {
@@ -65,7 +70,6 @@ function handleSubmitSearch() {
                 <input type="submit" value="Search"/>
             </form>
             <p>
-                {books}
             </p>
         </body>
     )
