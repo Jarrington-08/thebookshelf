@@ -8,7 +8,8 @@ const [books, setBooks] = useState([]);
 //Or would I select one book object from array of books?
 const [book, setBook] = useState('');
 const [searchTerm, setSearchTerm] = useState('');
-const key = window.sessionStorage.getItem("key");
+// const key = window.sessionStorage.getItem("key");
+const key = "AIzaSyD9ff8jAsbKpTfVfIAwdfBInX5AlgYMsWo";
 
 const handleInputChangeSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -19,49 +20,20 @@ function handleSubmitSearch(event) {
             event.preventDefault();
             fetch("https://content-books.googleapis.com/books/v1/volumes?q="+searchTerm+"&key="+key, {
             "headers": {
-                "accept": "*/*",
-                "accept-language": "en-US,en;q=0.9",
-                "Referer": "http://localhost:3000",
         },
         "body": null,
         "method": "GET"
         })
         .then((response) => response.json())
         .then((data) => {
-            setBooks(data);
+            setBooks(data.items);
         })
         //is .catch((error) => error); needed here? what does it do? Reserach this
         console.log(key);
         console.log(searchTerm);
-        // console.log(books);
+        // console.log(books.items[0].volumeInfo.title);
 };
 
-// useEffect(() => {
-
-//     //if handleInputChangeSearch function makes GB api call is this necessary??
-//     const handleSubmitSearch = async () => {
-//         await fetch("https://www.googleapis.com/books/v1/volumes?q="+{searchTerm}+"&key="+{key}, {
-//             method: "GET",
-//             headers: {
-//                 "content-type": "application/json"
-//             },
-//             })
-//             .then((response) => response.json())
-//             .then((data) => {
-//                 setBooks(data);
-//             })
-//             //is .catch((error) => error); needed here? what does it do? Reserach this
-//             console.log(books);
-//     };
-
-//     const addBook = async () => {
-//         //api call for onChange input
-//     };
-
-//     handleSubmitSearch();
-//     addBook();
-
-//     },[]);
 
     return(
         <body>
@@ -70,6 +42,11 @@ function handleSubmitSearch(event) {
                 <input type="submit" value="Search"/>
             </form>
             <p>
+                {books.map(
+                    book =>
+                    <div>{book.volumeInfo.title}</div>
+                    )
+                }
             </p>
         </body>
     )
