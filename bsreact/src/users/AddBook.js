@@ -44,7 +44,7 @@ function handleSubmitSearch(event) {
             <p>
                 {books.map(
                     book =>
-                    <div>{book.volumeInfo.title}</div>
+                    <div key={book.id}><a href={book.volumeInfo.infoLink} target="_blank" rel="noreferrer noopener">{book.volumeInfo.title} by {book.volumeInfo.authors} {book.volumeInfo.publishedDate.slice(0,4)}</a><img src={book.volumeInfo.imageLinks.smallThumbnail} alt={book.volumeInfo.title}></img></div>
                     )
                 }
             </p>
