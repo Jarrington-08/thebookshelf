@@ -36,18 +36,20 @@ function handleSubmitSearch(event) {
 
 
     return(
-        <body>
-            <form method="Get" onSubmit={handleSubmitSearch}>
-                <input type="text" name="searchTerm" value={searchTerm} placeholder='Add a book' onChange={handleInputChangeSearch}/>
-                <input type="submit" value="Search"/>
-            </form>
-            <p>
-                {books.map(
-                    book =>
-                    <div key={book.id}><a href={book.volumeInfo.infoLink} target="_blank" rel="noreferrer noopener">{book.volumeInfo.title} by {book.volumeInfo.authors} {book.volumeInfo.publishedDate.slice(0,4)}</a><img src={book.volumeInfo.imageLinks.smallThumbnail} alt={book.volumeInfo.title}></img></div>
-                    )
-                }
-            </p>
+        <body class="text-center bg">
+            <div id="white-bg" class="container d-flex h-100 p-5 mx-auto flex-column align-items-top">
+                <form method="Get" onSubmit={handleSubmitSearch}>
+                    <input type="text" name="searchTerm" value={searchTerm} placeholder='Add a book' onChange={handleInputChangeSearch}/>
+                    <input type="submit" value="Search"/>
+                </form>
+                <p>
+                    {books.map(
+                        book =>
+                        <div key={book.id}><a class="link-secondary" href={book.volumeInfo.infoLink} target="_blank" rel="noreferrer noopener">{book.volumeInfo.title}</a> by {book.volumeInfo.authors} {book.volumeInfo.publishedDate.slice(0,4)}<img class="img-thumbnail img-fluid" src={book.volumeInfo.imageLinks.smallThumbnail} alt={book.volumeInfo.title}></img></div>
+                        )
+                    }
+                </p>
+            </div>
         </body>
     )
 
