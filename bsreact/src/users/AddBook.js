@@ -38,17 +38,18 @@ function handleSubmitSearch(event) {
     return(
         <body class="text-center bg">
             <div id="white-bg" class="container d-flex h-100 p-5 mx-auto flex-column align-items-top">
+                <h3>Search here to add a book to your personal collection:</h3>
                 <form method="Get" onSubmit={handleSubmitSearch}>
                     <input type="text" name="searchTerm" value={searchTerm} placeholder='Add a book' onChange={handleInputChangeSearch}/>
                     <input type="submit" value="Search"/>
                 </form>
-                <p>
-                    {books.map(
+                <div>
+                    {books ? books.map(
                         book =>
-                        <div key={book.id}><a class="link-secondary" href={book.volumeInfo.infoLink} target="_blank" rel="noreferrer noopener">{book.volumeInfo.title}</a> by {book.volumeInfo.authors} {book.volumeInfo.publishedDate.slice(0,4)}<img class="img-thumbnail img-fluid" src={book.volumeInfo.imageLinks.smallThumbnail} alt={book.volumeInfo.title}></img></div>
-                        )
+                        <p key={book.id} style={{justifyContent: "start"}}><a class="link-secondary" href={book.volumeInfo.infoLink} target="_blank" rel="noreferrer noopener">{book.volumeInfo.title}</a> by {book.volumeInfo.authors} {book.volumeInfo.publishedDate ? book.volumeInfo.publishedDate.slice(0,4) : ""} <img class="img-thumbnail img-fluid" style={{width:"7.5%",height: "7.5%"}} src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"} alt={book.volumeInfo.title}></img></p>
+                        ) : '"'+searchTerm+'"'+" did not return any results."
                     }
-                </p>
+                </div>
             </div>
         </body>
     )

@@ -19,7 +19,7 @@ export default function NavBar()  {
                         <div class="container-fluid">
                             <div>
                                 <h1>
-                                    <a  class="nav-link active" href="/">The BookShelf Corner</a>
+                                    <a  class="nav-link active" href="/">The BookShelf</a>
                                 </h1>
                             </div>
                             <div class="navbar-nav ms-auto">
