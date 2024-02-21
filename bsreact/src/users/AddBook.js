@@ -43,11 +43,14 @@ function handleSubmitSearch(event) {
                     <input type="text" name="searchTerm" value={searchTerm} placeholder='Add a book' onChange={handleInputChangeSearch}/>
                     <input type="submit" value="Search"/>
                 </form>
-                <div style={{justifyContent: "left", display: "flex", flexDirection: "column"}}>
+                <div style={{justifyContent: "space-between", display: "flex", flexDirection: "column"}}>
                     {books ? books.map(
                         book =>
-                        <p key={book.id}><a class="link-secondary" href={book.volumeInfo.infoLink} target="_blank" rel="noreferrer noopener">{book.volumeInfo.title}</a> by {book.volumeInfo.authors} {book.volumeInfo.publishedDate ? book.volumeInfo.publishedDate.slice(0,4) : ""} <img class="img-thumbnail img-fluid" style={{width:64 ,height: 114}} src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"} alt={book.volumeInfo.title}></img></p>
-                        ) : '"'+searchTerm+'"'+" did not return any results."
+                        <div style={{justifyContent: "left", display: "flex", flexDirection: "row"}}>
+                            <p key={book.id}><img style={{width:100 ,height: 150}} src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"} alt={book.volumeInfo.title}></img> <a class="link-secondary" href={book.volumeInfo.infoLink} target="_blank" rel="noreferrer noopener">{book.volumeInfo.title}</a> by {book.volumeInfo.authors} {book.volumeInfo.publishedDate ? book.volumeInfo.publishedDate.slice(0,4) : ""} 
+                            </p>
+                        </div>
+                            ) : '"'+searchTerm+'"'+" did not return any results."
                     }
                 </div>
             </div>
