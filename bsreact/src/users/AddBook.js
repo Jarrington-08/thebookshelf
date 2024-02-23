@@ -18,7 +18,7 @@ const handleInputChangeSearch = (e) => {
 function handleSubmitSearch(event) {
             searchTerm.toString();
             event.preventDefault();
-            fetch("https://content-books.googleapis.com/books/v1/volumes?q="+searchTerm+"&key="+key, {
+            fetch("https://content-books.googleapis.com/books/v1/volumes?q="+searchTerm+"&key="+key+"&maxResults=6", {
             "headers": {
         },
         "body": null,
