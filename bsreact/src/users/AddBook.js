@@ -38,12 +38,14 @@ function handleSubmitSearch(event) {
     return(
         <body class="text-center bg">
             <div id="white-bg" class="container d-flex h-100 p-5 mx-auto flex-column align-items-top">
-                <h3>Search here to add a book to your personal collection:</h3>
-                <form method="Get" onSubmit={handleSubmitSearch}>
-                    <input type="text" name="searchTerm" value={searchTerm} placeholder='Add a book' onChange={handleInputChangeSearch}/>
-                    <input type="submit" value="Search"/>
-                </form>
-                <div style={{justifyContent: "space-between", display: "flex", flexDirection: "column"}}>
+                <h2 style={{margin: "3rem"}}>Add a book to your personal collection:</h2>
+                <div class="row d-flex align-items-center">
+                        <form method="Get" onSubmit={handleSubmitSearch}>
+                            <input type="text" name="searchTerm" value={searchTerm} placeholder='Search by title or author' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeSearch}/>
+                            <input type="submit" class="btn btn-secondary mt-2" value="Search"/>
+                        </form>
+                </div>
+                <div class="m-5 p-5">
                     {books ? books.map(
                         book =>
                         <div style={{justifyContent: "left", display: "flex", flexDirection: "row"}}>
