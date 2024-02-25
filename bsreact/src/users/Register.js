@@ -97,25 +97,25 @@ export default function RegisterUser() {
                   <div class="form-outline mb-4">
                     <input type="email" name="email" id="form2Example1" class="form-control" placeholder="Email address" onFocus={onEmailFocus} />
                     {
-                        emailError ? <span style={{ color: 'red', fontSize: '12px'}}>{emailError}</span> : ''
+                        emailError ? <span style={{ color: 'red', fontSize: '14px'}}>{emailError}</span> : ''
                     }
                   </div>
                   <div class="form-outline mb-4"> 
                     <input type="text" name="username" id="form2Example2" class="form-control" placeholder="Username" onFocus={onUsernameFocus} />
                     {
-                        usernameError ? <span style={{ color: 'red', fontSize: '12px'}}>{usernameError}</span> : ''
+                        usernameError ? <span style={{ color: 'red', fontSize: '14px'}}>{usernameError}</span> : ''
                     }
                   </div>
                   <div class="form-outline mb-4">
                       <input type="password" name="password" id="form2Example3" class="form-control" placeholder="Password" onFocus={onPasswordFocus} />
                           {
-                          passwordError ? <span style={{ color: 'red', fontSize: '12px'}}>{passwordError}</span> : ''
+                          passwordError ? <span style={{ color: 'red', fontSize: '14px'}}>{passwordError}</span> : ''
                           }
                   </div>
                   <div class="form-outline mb-4">
                       <input type="password" name="verifyPassword" id="form2Example4" class="form-control" placeholder="Verify password" onFocus={onVerifyPasswordFocus} />
                           {
-                          verifyPasswordError ? <span style={{ color: 'red', fontSize: '12px'}}>{verifyPasswordError}</span> : ''
+                          verifyPasswordError ? <span style={{ color: 'red', fontSize: '14px'}}>{verifyPasswordError}</span> : ''
                           }
                   </div>
                   <div>
