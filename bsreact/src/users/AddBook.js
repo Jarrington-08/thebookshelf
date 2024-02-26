@@ -9,11 +9,14 @@ const [recordsPerPage] = useState(5);
 const indexOfLastRecord = currentPage * recordsPerPage;
 const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
 const currentRecords = books ? books.slice(indexOfFirstRecord, indexOfLastRecord) : null;
+const [isDataRetrieved, setIsDataRetrieved] = useState(false);
+// const [isNoResults, setIsNoResults] = useState(false);
 //Do I need to make this a book object?
 //Or would I select one book object from array of books?
 const [book, setBook] = useState('');
 const [searchTerm, setSearchTerm] = useState('');
 const [searchError, setSearchError] = useState('');
+const [noResults, setNoResults] = useState('');
 
 // const key = window.sessionStorage.getItem("key");
 const key = "AIzaSyD9ff8jAsbKpTfVfIAwdfBInX5AlgYMsWo";
@@ -24,7 +27,7 @@ const handleInputChangeSearch = (e) => {
 }
 function handleSubmitSearch(event) {
             if (searchTerm === "") {
-                setSearchError("Please enter search terms.");
+                setSearchError("Please enter search terms");
                 event.preventDefault();
             }
             searchTerm.toString();
@@ -39,6 +42,11 @@ function handleSubmitSearch(event) {
         .then((data) => {
             if (data.totalItems !== 0 && !data.error) {
                 setBooks(data.items);
+                setIsDataRetrieved(true);
+            }
+            if (data.totalItems === 0) {
+                setIsDataRetrieved(false);
+                setNoResults('"'+searchTerm+'"'+" did not return any results");
             }
             
         })
@@ -58,6 +66,15 @@ function handleBackClick(event) {
         setCurrentPage(currentPage-1);
 }
 
+const onSearchFocus = (e) => {
+    e.preventDefault();
+    setSearchError('');
+    setNoResults('');
+    
+}
+
+//Need an onFocus function for search bar that clears error message and possibly "no results" message
+
 
     return(
         <body class="text-center bg">
@@ -65,7 +82,7 @@ function handleBackClick(event) {
                 <h2 style={{margin: "3rem"}}>Add a book to your personal collection:</h2>
                 <div class="row d-flex align-items-center">
                         <form method="Get" onSubmit={handleSubmitSearch} class="mb-5">
-                            <input type="text" name="searchTerm" value={searchTerm} placeholder='Search by title or author' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeSearch}/>
+                            <input type="text" name="searchTerm" value={searchTerm} placeholder='Search by title or author' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeSearch} onFocus={onSearchFocus}/>
                             <input type="submit" class="btn btn-secondary mt-2" value="Search"/>
                         </form>
                         {
@@ -73,16 +90,16 @@ function handleBackClick(event) {
                         }
                 </div>
                 <div class="mt-5 mx-auto">
-                    {books.length > 0 ? currentRecords.map(
+                    {isDataRetrieved ? currentRecords.map(
                         book =>
                         <div style={{justifyContent: "left", display: "flex", flexDirection: "row"}}>
                             <p key={book.id}><img style={{width:100 ,height: 150}} src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"} alt={book.volumeInfo.title}></img> <a class="link-secondary" href={book.volumeInfo.infoLink} target="_blank" rel="noreferrer noopener">{book.volumeInfo.title}</a> by {book.volumeInfo.authors} {book.volumeInfo.publishedDate ? book.volumeInfo.publishedDate.slice(0,4) : ""} 
                             </p>
                         </div>
-                            ) : '"'+searchTerm+'"'+" did not return any results."
+                            ) : noResults
                     }
                     <span>
-                        {books.length > 0 && currentPage < 4 ? <button type="button" class="btn btn-secondary mx-1" onClick={handleNextClick}>Next</button> : ""}
+                        {isDataRetrieved && currentPage < 4 ? <button type="button" class="btn btn-secondary mx-1" onClick={handleNextClick}>Next</button> : ""}
                         {currentPage > 1 ? <button type="button" class="btn btn-secondary mx-1" onClick={handleBackClick}>Back</button> : ""}
                     </span>
                 </div>
