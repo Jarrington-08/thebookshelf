@@ -27,7 +27,7 @@ const handleInputChangeSearch = (e) => {
 }
 function handleSubmitSearch(event) {
             if (searchTerm === "") {
-                setSearchError("Please enter search terms");
+                // setSearchError("Please enter a search query");
                 event.preventDefault();
             }
             searchTerm.toString();
@@ -43,10 +43,11 @@ function handleSubmitSearch(event) {
             if (data.totalItems !== 0 && !data.error) {
                 setBooks(data.items);
                 setIsDataRetrieved(true);
+                setCurrentPage(1);
             }
             if (data.totalItems === 0) {
                 setIsDataRetrieved(false);
-                setNoResults('"'+searchTerm+'"'+" did not return any results");
+                setNoResults("Your search did not return any results");
             }
             
         })
@@ -68,12 +69,11 @@ function handleBackClick(event) {
 
 const onSearchFocus = (e) => {
     e.preventDefault();
-    setSearchError('');
+    // setSearchError('');
     setNoResults('');
     
 }
 
-//Need an onFocus function for search bar that clears error message and possibly "no results" message
 
 
     return(
@@ -85,15 +85,15 @@ const onSearchFocus = (e) => {
                             <input type="text" name="searchTerm" value={searchTerm} placeholder='Search by title or author' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeSearch} onFocus={onSearchFocus}/>
                             <input type="submit" class="btn btn-secondary mt-2" value="Search"/>
                         </form>
-                        {
+                        {/* {
                             searchError ? <span style={{ color: 'red', fontSize: '16px'}}>{searchError}</span> : ''
-                        }
+                        } */}
                 </div>
                 <div class="mt-5 mx-auto">
                     {isDataRetrieved ? currentRecords.map(
                         book =>
                         <div style={{justifyContent: "left", display: "flex", flexDirection: "row"}}>
-                            <p key={book.id}><img style={{width:100 ,height: 150}} src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"} alt={book.volumeInfo.title}></img> <a class="link-secondary" href={book.volumeInfo.infoLink} target="_blank" rel="noreferrer noopener">{book.volumeInfo.title}</a> by {book.volumeInfo.authors.map(author => <span>{author}, </span>)} {book.volumeInfo.publishedDate ? book.volumeInfo.publishedDate.slice(0,4) : ""} 
+                            <p key={book.id}><img style={{width:100 ,height: 150, marginRight: "2em"}} src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"} alt={book.volumeInfo.title}></img> <a class="link-secondary" href={book.volumeInfo.infoLink} target="_blank" rel="noreferrer noopener">{book.volumeInfo.title}</a> by {book.volumeInfo.authors ? book.volumeInfo.authors.map(author => <span>{author}, </span>) : "Unknown Author"} {book.volumeInfo.publishedDate ? book.volumeInfo.publishedDate.slice(0,4) : ""} 
                             </p>
                         </div>
                             ) : noResults
