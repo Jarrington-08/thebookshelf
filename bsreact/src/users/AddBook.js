@@ -27,7 +27,7 @@ function handleAddBook(title, author, isbn, yearPublished, coverURL) {
             headers: {
                 "content-type": "text/plain" //Should this be JSON? seems easier
             },
-            body: newContactInfo.toString() //How to get all datapoints correct?
+            body: ""//How to get all datapoints correct?
         })
 }
 
