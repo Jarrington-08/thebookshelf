@@ -25,9 +25,15 @@ function handleAddBook(title, author, isbn, yearPublished, coverURL) {
     fetch("http://localhost:8080/addBook/"+userId, {
             method: "POST",
             headers: {
-                "content-type": "text/plain" //Should this be JSON? seems easier
+                "content-type": "application/json" //Should this be JSON? seems easier
             },
-            body: ""//How to get all datapoints correct?
+            body: {
+                title: {title},
+                author: {author},
+                isbn: {isbn},
+                yearPublished: {yearPublished},
+                coverURL: {coverURL}
+            }
         })
 }
 
@@ -103,7 +109,7 @@ const onSearchFocus = (e) => {
                     {isDataRetrieved ? currentRecords.map(
                         book =>
                         <div style={{justifyContent: "left", display: "flex", flexDirection: "row"}}>
-                            <p key={book.id}><img style={{width:100 ,height: 150, marginRight: "2em"}} src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"} alt={book.volumeInfo.title}></img> <a class="link-secondary" href={book.volumeInfo.infoLink} target="_blank" rel="noreferrer noopener">{book.volumeInfo.title}</a> by {book.volumeInfo.authors ? book.volumeInfo.authors.map(author => <span>{author}, </span>) : "Unknown Author"} {book.volumeInfo.publishedDate ? book.volumeInfo.publishedDate.slice(0,4) : "Publication Year Unavailable"} 
+                            <p key={book.id}><img style={{width:100 ,height: 150, marginRight: "2em"}} src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"} alt={book.volumeInfo.title}></img> <a class="link-secondary" href={book.volumeInfo.infoLink} target="_blank" rel="noreferrer noopener">{book.volumeInfo.title}</a> by {book.volumeInfo.authors ? book.volumeInfo.authors.map(author => <span>{author}, </span>) : "Unknown Author"} {book.volumeInfo.publishedDate ? book.volumeInfo.publishedDate.slice(0,4) : "Publication Year Unavailable"} <button class="btn btn-secondaryc" onClick={handleAddBook}>Add</button> 
                             </p>
                         </div>
                             ) : noResults

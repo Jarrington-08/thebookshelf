@@ -16,7 +16,7 @@ export default function Home() {
                             <p class="lead">And help promote sustainable consumption</p>
                     </main>
             </div>
-            <footer>Made by the Four A's</footer>
+            <footer>Made by John Arrington</footer>
         </body>
     )
 }
