@@ -65,7 +65,7 @@ public class AuthenticationController {
     public ResponseEntity<LoginResponseDTO> performLogin(@Valid @RequestBody LoginRequestDTO loginRequestDTO){
         Optional<User> optUser = userRepository.findByEmail(loginRequestDTO.getEmail().trim());
         if (optUser.isPresent()) {
-            User user = (User) optUser.get();
+            User user = optUser.get();
             if (user.isEnabled()) {
                 if (user.isMatchingPassword(loginRequestDTO.getPassword())) {
                     return ResponseEntity.ok(new LoginResponseDTO(user.getId(), "Success !"));
@@ -86,7 +86,7 @@ public class AuthenticationController {
         {
             Optional<User> optUser = userRepository.findByEmail(token.getUserEntity().getEmail());
             if (optUser.isPresent()) {
-                User user = (User) optUser.get();
+                User user = optUser.get();
                 user.setEnabled(true);
                 userRepository.save(user);
                 return ResponseEntity.ok("Email verified successfully!");
@@ -100,7 +100,7 @@ public class AuthenticationController {
     public ResponseEntity<LoginResponseDTO> changePassword(@Valid @RequestBody ChangePasswordRequestDTO changePasswordRequestDTO) {
         Optional<User> optUser = userRepository.findById(changePasswordRequestDTO.getUserId());
         if (optUser.isPresent()) {
-            User user = (User) optUser.get();
+            User user = optUser.get();
             user.setPwHash(changePasswordRequestDTO.getPassword());
             userRepository.save(user);
             return ResponseEntity.ok(new LoginResponseDTO(user.getId(), "Success !"));
