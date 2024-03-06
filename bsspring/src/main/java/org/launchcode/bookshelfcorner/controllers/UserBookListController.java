@@ -1,5 +1,6 @@
 package org.launchcode.bookshelfcorner.controllers;
 
+import org.launchcode.bookshelfcorner.models.Book;
 import org.launchcode.bookshelfcorner.models.Genre;
 import org.launchcode.bookshelfcorner.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,17 @@ public class UserBookListController {
     BookRepository bookRepository;
 
     @PostMapping("/addBook/{userId}")
-    //This is treating the JSON object as the "title" parameter and treating the others as null. Why? Do I need to declare a different data type besides String? How do I package it in Java? Need to research POST JSON objects
     //Do I need to use a book object? Don't forget to account for missing data (again, do I send default values from front end if missing?)
-    public String addBook(@PathVariable int userId, @RequestBody String title) {
-//        String a = valueOf(yearPublished);
-        System.out.println(title);
+    //Do I just default to null? And then handle it again in the front end when nothing renders for that data?
+    //Needs to return EntityResponse ultimately
+    //Not sure if declaring a newBook variable is necessary. Can we just save the value passed to the function? Need to test this
+    public String addBook(@PathVariable int userId, @RequestBody Book book) {
+        Book newBook = new Book(book.getTitle(),
+                book.getAuthors(),
+                book.getIsbn(),
+                book.getYearPublished(),
+                book.getCoverURL());
+        //Let's get this working then add in a bookRequestDTO
         return "Book added";
     }
 }

@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
+
 @Entity
 public class Book extends AbstractEntity {
 
@@ -11,24 +13,31 @@ public class Book extends AbstractEntity {
     private String title;
 
     @NotNull
-    private String author;
+    private ArrayList<String> authors;
 
     //At some point need to make this Genre object and @ManyToMany annotation?
+//    @NotNull
+//    private String genre;
     @NotNull
-    private String genre;
+    private long isbn;
+
     @NotNull
-    private String ISBN;
+    private Integer yearPublished;
+
+    @NotNull
+    private String coverURL;
 
     private boolean isAvailable;
 
     public Book() {}
 
-    public Book(String aTitle, String anAuthor, String aGenre, String anISBN) {
+    public Book(String aTitle, ArrayList<String> aAuthors, long aIsbn, Integer aYearPublished, String aCoverURL) {
         super();
         this.title = aTitle;
-        this.author = anAuthor;
-        this.genre = aGenre;
-        this.ISBN = anISBN;
+        this.authors = aAuthors;
+        this.isbn = aIsbn;
+        this.yearPublished = aYearPublished;
+        this.coverURL = aCoverURL;
         this.isAvailable = true;
     }
 
@@ -40,28 +49,45 @@ public class Book extends AbstractEntity {
         this.title = title;
     }
 
-    public String getAuthor() {
-        return author;
+    public ArrayList<String> getAuthors() {
+        return authors;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthors(ArrayList<String> authors) {
+        this.authors = authors;
     }
 
-    public String getGenre() {
-        return genre;
+    //    public String getGenre() {
+//        return genre;
+//    }
+//
+//    public void setGenre(String genre) {
+//        this.genre = genre;
+//    }
+
+
+    public long getIsbn() {
+        return isbn;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setIsbn(long isbn) {
+        this.isbn = isbn;
     }
 
-    public String getISBN() {
-        return ISBN;
+    public Integer getYearPublished() {
+        return yearPublished;
     }
 
-    public void setISBN(String ISBN) {
-        this.ISBN = ISBN;
+    public void setYearPublished(Integer yearPublished) {
+        this.yearPublished = yearPublished;
+    }
+
+    public String getCoverURL() {
+        return coverURL;
+    }
+
+    public void setCoverURL(String coverURL) {
+        this.coverURL = coverURL;
     }
 
     public boolean isAvailable() {

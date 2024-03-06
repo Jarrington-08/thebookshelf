@@ -20,15 +20,15 @@ const [noResults, setNoResults] = useState('');
 // const key = window.sessionStorage.getItem("key");
 const key = "AIzaSyD9ff8jAsbKpTfVfIAwdfBInX5AlgYMsWo";
 
-function handleAddBook(title, author, isbn, yearPublished, coverURL) {
+function handleAddBook(title, authors, isbn, yearPublished, coverURL) {
     fetch("http://localhost:8080/addBook/"+window.sessionStorage.getItem("userId"), {
             method: "POST",
             headers: {
-                "content-type": "application/json" //Should this be JSON? seems easier
+                "content-type": "application/json"
             },
             body: JSON.stringify({
                 title,
-                author,
+                authors,
                 isbn,
                 yearPublished,
                 coverURL
@@ -111,7 +111,7 @@ const onSearchFocus = (e) => {
                             <p key={book.id}><img style={{width:100 ,height: 150, marginRight: "2em"}} src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"} alt={book.volumeInfo.title}></img> 
                             <a class="link-secondary" href={book.volumeInfo.infoLink} target="_blank" rel="noreferrer noopener">{book.volumeInfo.title}</a> by {book.volumeInfo.authors ? book.volumeInfo.authors.map(author => <span>{author}, </span>) : "Unknown Author,"} {book.volumeInfo.publishedDate ? book.volumeInfo.publishedDate.slice(0,4) :
                             //For POST request how do we handle missing data? Only in backend? Or do we need to create filler data in front end before sending? ***I could use default values for function parameters in REACT***
-                            "Publication Year Unavailable"} <button class="btn btn-secondary" onClick={() => { handleAddBook(book.volumeInfo.title, book.volumeInfo.authors, book.volumeInfo.industryIdentifiers, book.volumeInfo.publishedDate, book.volumeInfo.imageLinks.smallThumbnail)}}>Add</button> 
+                            "Publication Year Unavailable"} <button class="btn btn-secondary" onClick={() => { handleAddBook(book.volumeInfo.title, book.volumeInfo.authors, book.volumeInfo.industryIdentifiers[0].identifier, book.volumeInfo.publishedDate, book.volumeInfo.imageLinks.smallThumbnail)}}>Add</button> 
                             </p>
                         </div>
                             ) : noResults
