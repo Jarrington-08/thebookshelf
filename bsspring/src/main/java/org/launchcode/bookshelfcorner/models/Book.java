@@ -1,13 +1,21 @@
 package org.launchcode.bookshelfcorner.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Book extends AbstractEntity {
+
+    @ManyToMany(mappedBy = "books")
+    @JsonBackReference
+    private List<User> users;
 
     @NotNull
     private String title;
@@ -96,6 +104,14 @@ public class Book extends AbstractEntity {
 
     public void setAvailable(boolean available) {
         isAvailable = available;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     //Will this even be needed? Since I will be retrieving data from MySQL?

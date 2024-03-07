@@ -36,6 +36,10 @@ public class User extends AbstractEntity {
     @JsonBackReference
     private List<FavoriteBook> favoriteBookList;
 
+    @ManyToMany
+    @JsonBackReference
+    private List<Book> books;
+
     @NotNull
     private String username;
 
@@ -149,6 +153,14 @@ public class User extends AbstractEntity {
 
     public void setContactInfo(String contactInfo) {
         this.contactInfo = contactInfo;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     @Override

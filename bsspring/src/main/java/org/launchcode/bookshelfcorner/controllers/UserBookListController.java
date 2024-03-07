@@ -15,7 +15,7 @@ public class UserBookListController {
     @Autowired
     BookRepository bookRepository;
 
-    @PostMapping("/addBook/{userId}")
+    @PostMapping(value = "/addBook/{userId}", consumes = "application/json;charset=UTF-8")
     //Do I need to use a book object? Don't forget to account for missing data (again, do I send default values from front end if missing?)
     //Do I just default to null? And then handle it again in the front end when nothing renders for that data?
     //Needs to return EntityResponse ultimately
@@ -26,7 +26,9 @@ public class UserBookListController {
                 book.getIsbn(),
                 book.getYearPublished(),
                 book.getCoverURL());
+        bookRepository.save(newBook);
         //Let's get this working then add in a bookRequestDTO
+        //Seems like bookRequestDTO is unecessary because it won't reduce remote calls as far as I can see. DTO's seem to be intended for bundling data to reduce remote calls / method calls
         return "Book added";
     }
 }
