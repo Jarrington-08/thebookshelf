@@ -26,6 +26,7 @@ public class UserBookListController {
                 book.getIsbn(),
                 book.getYearPublished(),
                 book.getCoverURL());
+        System.out.println(newBook);
         bookRepository.save(newBook);
         //Let's get this working then add in a bookRequestDTO
         //Seems like bookRequestDTO is unecessary because it won't reduce remote calls as far as I can see. DTO's seem to be intended for bundling data to reduce remote calls / method calls

@@ -10,7 +10,7 @@ export default function NavBar()  {
         const onLogout = () => {
           window.sessionStorage.setItem("loggedIn", null);
           window.sessionStorage.setItem("username", null);
-          return navigate(0);
+          return navigate("/");
         }
 
         return (

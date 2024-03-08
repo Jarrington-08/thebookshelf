@@ -37,7 +37,7 @@ public class User extends AbstractEntity {
     private List<FavoriteBook> favoriteBookList;
 
     @ManyToMany
-    @JsonBackReference
+//    @JsonBackReference
     private List<Book> books;
 
     @NotNull

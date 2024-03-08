@@ -1,6 +1,7 @@
 package org.launchcode.bookshelfcorner.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
@@ -14,7 +15,7 @@ import java.util.List;
 public class Book extends AbstractEntity {
 
     @ManyToMany(mappedBy = "books")
-    @JsonBackReference
+//    @JsonManagedReference
     private List<User> users;
 
     @NotNull
