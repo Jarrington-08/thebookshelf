@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 public class Book extends AbstractEntity {
 
+    //This fixed Http 415 Unsupported Media type error with JSON char set UTF 8
     @JsonIgnore
     @ManyToMany(mappedBy = "bookList")
     private final List<User> users = new ArrayList<>();
