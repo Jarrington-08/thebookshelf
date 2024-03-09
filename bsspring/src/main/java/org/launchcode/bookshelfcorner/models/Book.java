@@ -1,11 +1,9 @@
 package org.launchcode.bookshelfcorner.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
@@ -14,15 +12,15 @@ import java.util.List;
 @Entity
 public class Book extends AbstractEntity {
 
-    @ManyToMany(mappedBy = "books")
-//    @JsonManagedReference
-    private List<User> users;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "bookList")
+    private final List<User> users = new ArrayList<>();
 
     @NotNull
     private String title;
 
     @NotNull
-    private ArrayList<String> authors;
+    private List<String> authors = new ArrayList<>();
 
     //At some point need to make this Genre object and @ManyToMany annotation?
 //    @NotNull
@@ -34,19 +32,20 @@ public class Book extends AbstractEntity {
     private Integer yearPublished;
 
     @NotNull
-    private String coverURL;
+//    @Column (name = "cover_url")
+    private String coverUrl;
 
     private boolean isAvailable;
 
     public Book() {}
 
-    public Book(String aTitle, ArrayList<String> aAuthors, long aIsbn, Integer aYearPublished, String aCoverURL) {
+    public Book(String aTitle, List<String> aAuthors, long aIsbn, Integer aYearPublished, String aCoverUrl) {
         super();
         this.title = aTitle;
         this.authors = aAuthors;
         this.isbn = aIsbn;
         this.yearPublished = aYearPublished;
-        this.coverURL = aCoverURL;
+        this.coverUrl = aCoverUrl;
         this.isAvailable = true;
     }
 
@@ -58,7 +57,7 @@ public class Book extends AbstractEntity {
         this.title = title;
     }
 
-    public ArrayList<String> getAuthors() {
+    public List<String> getAuthors() {
         return authors;
     }
 
@@ -91,13 +90,14 @@ public class Book extends AbstractEntity {
         this.yearPublished = yearPublished;
     }
 
-    public String getCoverURL() {
-        return coverURL;
+    public String getCoverUrl() {
+        return coverUrl;
     }
 
-    public void setCoverURL(String coverURL) {
-        this.coverURL = coverURL;
+    public void setCoverUrl(String coverUrl) {
+        this.coverUrl = coverUrl;
     }
+
 
     public boolean isAvailable() {
         return isAvailable;
@@ -111,9 +111,11 @@ public class Book extends AbstractEntity {
         return users;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
+   public void addUser(User user) {
+        this.users.add(user);
+   }
+
+   //delete user method needed
 
     //Will this even be needed? Since I will be retrieving data from MySQL?
     @Override

@@ -1,14 +1,9 @@
 package org.launchcode.bookshelfcorner.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
@@ -37,8 +32,7 @@ public class User extends AbstractEntity {
     private List<FavoriteBook> favoriteBookList;
 
     @ManyToMany
-//    @JsonBackReference
-    private List<Book> books;
+    private final List<Book> bookList = new ArrayList<>();
 
     @NotNull
     private String username;
@@ -156,12 +150,14 @@ public class User extends AbstractEntity {
     }
 
     public List<Book> getBooks() {
-        return books;
+        return bookList;
     }
 
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
+   public void addBook(Book book) {
+        this.bookList.add(book);
+   }
+
+   //delete user method needed
 
     @Override
     public String toString() {
