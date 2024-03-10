@@ -20,7 +20,7 @@ const [noResults, setNoResults] = useState('');
 // const key = window.sessionStorage.getItem("key");
 const key = "AIzaSyD9ff8jAsbKpTfVfIAwdfBInX5AlgYMsWo";
 
-function handleAddBook(title, authors, isbn, yearPublished, coverURL) {
+function handleAddBook(title, authors, isbn, yearPublished, coverUrl) {
     fetch("http://localhost:8080/addBook/"+window.sessionStorage.getItem("userId"), {
             method: "POST",
             headers: {
@@ -31,7 +31,7 @@ function handleAddBook(title, authors, isbn, yearPublished, coverURL) {
                 authors,
                 isbn,
                 yearPublished,
-                coverURL
+                coverUrl
             }),
         })
 }
@@ -69,7 +69,7 @@ function handleSubmitSearch(event) {
         //is .catch((error) => error); needed here? what does it do? Reserach this
         // console.log(key);
         // console.log(searchTerm);
-        // console.log(books.items[0].volumeInfo.title);
+        // console.log(books.items[0].volumeInfo.imageLinks.smallThumbnail);
 };
 
 function handleNextClick(event) {

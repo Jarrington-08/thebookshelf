@@ -17,6 +17,7 @@ export default function Profile() {
     const [aboutMe, setAboutMe] = useState('');
     const [contactInfo, setContactInfo] = useState('');
     const [location, setLocation] = useState('');
+    const [bookList, setBookList] = useState([]);
 
     useEffect(() => {
 
@@ -104,6 +105,20 @@ export default function Profile() {
             })
             .catch((error) => error);
         };
+
+        const fetchBookList = async () => {
+            await fetch("http://localhost:8080/getUserBookList/"+userId, {
+            method: "GET",
+            headers: {
+                "content-type": "application/json"
+            },
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                setBookList(data);
+            })
+            .catch((error) => error);
+        };
         
         fetchContactInfo();
         fetchLocation();
@@ -111,6 +126,7 @@ export default function Profile() {
         fetchFavoriteBooks();
         fetchUsername();
         fetchGenres();
+        fetchBookList();
     },[userId]);
 
     window.sessionStorage.setItem("username", username);
@@ -197,6 +213,26 @@ export default function Profile() {
                                         genres.map(
                                             genre =>
                                             <li class="list-group-item">{genre.genreName}</li>
+                                        )
+                                    }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-4 mb-md-0">
+                            <div class="card-body">
+                                <p class="mb-4"><span class="text-secondary font-italic me-1">My</span> Books
+                                </p>
+                                <div class="row">
+                                    <ul class="list-group mb-1"> 
+                                    {
+                                        bookList.map(
+                                            book =>
+                                            <li class="list-group-item">{book.bookName}</li>
                                         )
                                     }
                                     </ul>

@@ -1,6 +1,7 @@
 package org.launchcode.bookshelfcorner.repository;
 
 import org.launchcode.bookshelfcorner.models.Book;
+import org.launchcode.bookshelfcorner.models.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +13,4 @@ import java.util.List;
 @Repository
 public interface BookRepository extends CrudRepository<Book, Integer> {
 
-//    List<Book> findByUserId(int user_id);
 }
