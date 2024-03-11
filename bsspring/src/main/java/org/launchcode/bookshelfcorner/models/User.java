@@ -32,7 +32,7 @@ public class User extends AbstractEntity {
     private List<FavoriteBook> favoriteBookList;
 
     @ManyToMany
-    private final List<Book> bookList = new ArrayList<>();
+    private List<Book> bookList = new ArrayList<>();
 
     @NotNull
     private String username;
@@ -149,11 +149,12 @@ public class User extends AbstractEntity {
         this.contactInfo = contactInfo;
     }
 
-    public List<Book> getBooks() {
+    public void setBookList(List<Book> bookList) { this.bookList = bookList; }
+    public List<Book> getBookList() {
         return bookList;
     }
 
-   public void addBook(Book book) {
+    public void addBook(Book book) {
         this.bookList.add(book);
    }
 

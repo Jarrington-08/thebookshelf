@@ -36,8 +36,18 @@ public class UserBookListController {
 //        System.out.println(newBook.getIsbn());
 //        System.out.println(newBook.getYearPublished());
 //        System.out.println(newBook.getCoverUrl());
+
+        Optional<User> optUser = userRepository.findById(userId);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            user.addBook(newBook);
+        } else { }
         bookRepository.save(newBook);
+            //This is why I need to refactor all API methods to return HttpResponse - Can't return a String
+            //return "User not found";
         //Need to figure out why ArrayList is saved as "BLOB" in MySQL and how to work with it / fix it
+        //Do I need to add book to user booklist manually? Does hibernate do that for me?
+        //Do I need to add user to Book users? Does hibernate do that for me?
         //Seems like bookRequestDTO is unecessary because it won't reduce remote calls as far as I can see. DTO's seem to be intended for bundling data to reduce remote calls / method calls
         return "Book added";
     }
@@ -47,7 +57,7 @@ public class UserBookListController {
         Optional<User> optUser = userRepository.findById(userId);
         if (optUser.isPresent()) {
             User user = optUser.get();
-            return user.getBooks();
+            return user.getBookList();
         } else {
             //This is why I need to refactor all API methods to return HttpResponse - Can't return a String
             //return "User not found";

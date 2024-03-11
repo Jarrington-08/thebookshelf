@@ -232,7 +232,7 @@ export default function Profile() {
                                     {
                                         bookList.map(
                                             book =>
-                                            <li class="list-group-item">{book.bookName}</li>
+                                            <li class="list-group-item">{book.title}</li>
                                         )
                                     }
                                     </ul>
