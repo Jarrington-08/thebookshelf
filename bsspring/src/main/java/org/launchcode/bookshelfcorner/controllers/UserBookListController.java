@@ -30,33 +30,34 @@ public class UserBookListController {
     //Do I just default to null? And then handle it again in the front end when nothing renders for that data?
     //Needs to return EntityResponse ultimately
     public String addBook(@PathVariable int userId, @RequestBody Book book) {
-        //I want  to refactor all this logic. 1. If user not present return error message 2. If book already saved in repo, then add user
-        // to user list and add book to user bookList (regardless of whether it exists in user's list i.e. multiple copies of same book are possible
-        //In future, may add a confirmation box with buttons to confirm adding duplicate
-        //If book not in repo then add user and save to repo and add book to repo
         //Need to test what happens when a second user uploads same book. It should just add them to List user in book object. Manually??
-        Optional<Book> optNewBook = bookRepository.findByIsbn(book.getIsbn());
-        if (optNewBook.isPresent()){
-            Book existingBook = optNewBook.get();
-            Optional<User> optUser = userRepository.findById(userId);
-            if (optUser.isPresent()) {
-                User user = optUser.get();
-                if (user.getBookList().contains(existingBook)) {
-                    //This is where I need ro return HTTPresponse with message "Book already added"
-                } else {
-                    user.addBook(existingBook);
-                    existingBook.addUser(user);
-                }
-        }
+        //Latest error message when trying to add Sorcerer's Stone with full date saying "Cannot deserialize value of type `java.lang.Integer` from String "2015-12-08": not a valid `java.lang.Integer` value]"
+        //Need to address this after solving the fact that the book isn't saving in the join table now (seperate issue)
         book.setYearPublished(Integer.valueOf(book.getYearPublished().toString().substring(0,4)));
-//        Book newBook = new Book(book.getTitle(), book.getAuthors(), book.getIsbn(), book.YearPublished(), book.getCoverUrl());
 
+        Optional<Book> optNewBook = bookRepository.findByIsbn(book.getIsbn());
+        Optional<User> optUser = userRepository.findById(userId);
+
+        if (optUser.isEmpty()) {
+            return "User does not exist";
+        }
+        User user = optUser.get();
+        if (optNewBook.isPresent()) {
+            //!!!This is not currently working - need to fix - !!!
+            //This logic allows for users to add multiple copies of the same volume if they possess them.
+            //In the future, it would probably be good to use a pop to confirm adding an existing book
+            user.addBook(book);
+            //This logic allows for users who add an existing volume to their personal list to be added to list of users possessing that volume
+            if (!book.getUsers().contains(user)) {
+                book.addUser(user);
+            }
+        } else {
+            user.addBook(book);
+            book.addUser(user);
+            bookRepository.save(book);
 
         }
-
-        bookRepository.save(book);
             //This is why I need to refactor all API methods to return HttpResponse - Can't return a String
-            //return "User not found"
             //Seems like bookRequestDTO is unecessary because it won't reduce remote calls as far as I can see. DTO's seem to be intended for bundling data to reduce remote calls / method calls
             //Eventually when I add an Author object (i.e. to be able to sort lists by author I will probably use a DTO to bundle book and author separately)
         return "Book added";
