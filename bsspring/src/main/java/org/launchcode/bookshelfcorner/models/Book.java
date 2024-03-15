@@ -13,9 +13,16 @@ import java.util.List;
 public class Book extends AbstractEntity {
 
     //This fixed Http 415 Unsupported Media type error with JSON char set UTF 8
+    //Commenting out the ManyToMany relevant code as I refactor this into one to many
+//    @JsonIgnore
+//    @ManyToMany(mappedBy = "bookList")
+//    private List<User> users = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     @JsonIgnore
-    @ManyToMany(mappedBy = "bookList")
-    private List<User> users = new ArrayList<>();
+    private User user;
+
 
     @NotNull
     private String title;
@@ -62,7 +69,7 @@ public class Book extends AbstractEntity {
         return authors;
     }
 
-    public void setAuthors(ArrayList<String> authors) {
+    public void setAuthors(List<String> authors) {
         this.authors = authors;
     }
 
@@ -108,15 +115,23 @@ public class Book extends AbstractEntity {
         isAvailable = available;
     }
 
-    public void setUsers() { this.users = users; }
-
-    public List<User> getUsers() {
-        return users;
+    public User getUser() {
+        return user;
     }
 
-   public void addUser(User user) {
-        this.users.add(user);
-   }
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    //    public void setUsers() { this.users = users; }
+//
+//    public List<User> getUsers() {
+//        return users;
+//    }
+//
+//   public void addUser(User user) {
+//        this.users.add(user);
+//   }
 
    //delete user method needed
 

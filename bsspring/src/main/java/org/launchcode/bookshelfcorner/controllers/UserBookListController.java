@@ -48,12 +48,12 @@ public class UserBookListController {
             //In the future, it would probably be good to use a pop to confirm adding an existing book
             user.addBook(book);
             //This logic allows for users who add an existing volume to their personal list to be added to list of users possessing that volume
-            if (!book.getUsers().contains(user)) {
-                book.addUser(user);
-            }
+//            if (!book.getUsers().contains(user)) {
+//                book.addUser(user);
+//            }
         } else {
             user.addBook(book);
-            book.addUser(user);
+//            book.addUser(user);
             bookRepository.save(book);
 
         }

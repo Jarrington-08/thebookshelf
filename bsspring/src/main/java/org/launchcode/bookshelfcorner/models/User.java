@@ -31,8 +31,13 @@ public class User extends AbstractEntity {
     @JsonBackReference
     private List<FavoriteBook> favoriteBookList;
 
-    @ManyToMany
-    private List<Book> bookList = new ArrayList<>();
+    //Commenting out subsequent code as I refactor user / book to a one to many relationship not manytomany
+//    @ManyToMany
+//    private List<Book> bookList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<Book> bookList;
 
     @NotNull
     private String username;
@@ -75,15 +80,6 @@ public class User extends AbstractEntity {
     public void setEmail(String email) { this.email = email; }
 
     public void setPwHash (String password) { this.pwHash = encoder.encode(password); }
-
-//    public List<Book> getBooksToShare() { return booksToShare; }
-//
-//
-//    public void setBooksToShare(List<Book> booksToShare) { this.booksToShare = booksToShare; }
-
-    //Do we need another method to update booksToShare list?
-    //Should this be another class by itself?
-
 
     public List<Genre> getGenreList() {
         return genreList;
