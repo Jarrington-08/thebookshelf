@@ -111,7 +111,7 @@ const onSearchFocus = (e) => {
                             <p key={book.id}><img style={{width:100 ,height: 150, marginRight: "2em"}} src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"} alt={book.volumeInfo.title}></img> 
                             <a class="link-secondary" href={book.volumeInfo.infoLink} target="_blank" rel="noreferrer noopener">{book.volumeInfo.title}</a> by {book.volumeInfo.authors ? book.volumeInfo.authors.map(author => <span>{author}, </span>) : "Unknown Author,"} {book.volumeInfo.publishedDate ? book.volumeInfo.publishedDate.slice(0,4) :
                             //For POST request how do we handle missing data? Only in backend? Or do we need to create filler data in front end before sending? ***I could use default values for function parameters in REACT***
-                            "Publication Year Unavailable"} <button class="btn btn-secondary" onClick={() => { handleAddBook(book.volumeInfo.title, book.volumeInfo.authors, book.volumeInfo.industryIdentifiers[0].identifier, book.volumeInfo.publishedDate, book.volumeInfo.imageLinks.smallThumbnail)}}>Add</button> 
+                            "Publication Year Unavailable"} <button class="btn btn-secondary" onClick={() => { handleAddBook(book.volumeInfo.title, book.volumeInfo.authors, book.volumeInfo.industryIdentifiers[0].identifier, book.volumeInfo.publishedDate.slice(0,4), book.volumeInfo.imageLinks.smallThumbnail)}}>Add</button> 
                             </p>
                         </div>
                             ) : noResults

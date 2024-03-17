@@ -36,7 +36,6 @@ public class UserBookListController {
     //Needs to return EntityResponse ultimately
     public String addBook(@PathVariable int userId, @RequestBody Book book) {
         //Latest error message when trying to add Sorcerer's Stone with full date saying "Cannot deserialize value of type `java.lang.Integer` from String "2015-12-08": not a valid `java.lang.Integer` value]"
-        book.setYearPublished(Integer.valueOf(book.getYearPublished().toString().substring(0,4)));
 
         Optional<Book> optNewBook = bookRepository.findByIsbn(book.getIsbn());
         Optional<User> optUser = userRepository.findById(userId);
@@ -52,15 +51,16 @@ public class UserBookListController {
             //In the future, it would probably be good to use a pop to confirm adding an existing book
             UserCopy userCopy = new UserCopy(book, user);
             userCopyRepository.save(userCopy);
-            user.addUserCopy(userCopy);
-            existingBook.addUserCopy(userCopy);
+            //These lines don't seem necessary. It doesn't seem like they are doing anything. Rewatch the LC java videos to clarify
+//            user.addUserCopy(userCopy);
+//            existingBook.addUserCopy(userCopy);
         } else {
             //Will this work for book.adduserCopy? I feel like I might need to create a Book object first (but the method @requestbody requires a book object
             bookRepository.save(book);
             UserCopy userCopy = new UserCopy(book, user);
             userCopyRepository.save(userCopy);
-            user.addUserCopy(userCopy);
-            book.addUserCopy(userCopy);
+//            user.addUserCopy(userCopy);
+//            book.addUserCopy(userCopy);
         }
             //This is why I need to refactor all API methods to return HttpResponse - Can't return a String
             //Seems like bookRequestDTO is unecessary because it won't reduce remote calls as far as I can see. DTO's seem to be intended for bundling data to reduce remote calls / method calls
