@@ -73,7 +73,7 @@ public class UserBookListController {
         Optional<User> optUser = userRepository.findById(userId);
         if (optUser.isPresent()) {
             User user = optUser.get();
-            return user.getUserCopyList();
+            return userCopyRepository.findByOwner(user);
         } else {
             //This is why I need to refactor all API methods to return HttpResponse - Can't return a String
             //return "User not found";
