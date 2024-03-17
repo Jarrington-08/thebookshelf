@@ -18,10 +18,14 @@ public class Book extends AbstractEntity {
 //    @ManyToMany(mappedBy = "bookList")
 //    private List<User> users = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonIgnore
-    private User user;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    @JsonIgnore
+//    private User user;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<UserCopy> userCopyList;
 
 
     @NotNull
@@ -43,7 +47,7 @@ public class Book extends AbstractEntity {
 //    @Column (name = "cover_url")
     private String coverUrl;
 
-    private boolean isAvailable;
+//    private boolean isAvailable;
 
     public Book() {}
 
@@ -54,7 +58,7 @@ public class Book extends AbstractEntity {
         this.isbn = aIsbn;
         this.yearPublished = aYearPublished;
         this.coverUrl = aCoverUrl;
-        this.isAvailable = true;
+//        this.isAvailable = true;
     }
 
     public String getTitle() {
@@ -107,21 +111,21 @@ public class Book extends AbstractEntity {
     }
 
 
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+//    public boolean isAvailable() {
+//        return isAvailable;
+//    }
+//
+//    public void setAvailable(boolean available) {
+//        isAvailable = available;
+//    }
+//
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
     //    public void setUsers() { this.users = users; }
 //
@@ -136,6 +140,20 @@ public class Book extends AbstractEntity {
    //delete user method needed
 
     //Will this even be needed? Since I will be retrieving data from MySQL?
+
+
+    public List<UserCopy> getUserCopyList() {
+        return userCopyList;
+    }
+
+    public void setUserCopyList(List<UserCopy> userCopyList) {
+        this.userCopyList = userCopyList;
+    }
+
+    public void addUserCopy(UserCopy userCopy) {
+        this.userCopyList.add(userCopy);
+    }
+
     @Override
     public String toString() {
         return title;

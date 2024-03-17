@@ -37,7 +37,7 @@ public class User extends AbstractEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonBackReference
-    private List<Book> bookList;
+    private List<UserCopy> userCopyList;
 
     @NotNull
     private String username;
@@ -145,16 +145,29 @@ public class User extends AbstractEntity {
         this.contactInfo = contactInfo;
     }
 
-    public void setBookList(List<Book> bookList) { this.bookList = bookList; }
-    public List<Book> getBookList() {
-        return bookList;
-    }
-
-    public void addBook(Book book) {
-        this.bookList.add(book);
-   }
+//    public void setBookList(List<Book> bookList) { this.bookList = bookList; }
+//    public List<Book> getBookList() {
+//        return bookList;
+//    }
+//
+//    public void addBook(Book book) {
+//        this.bookList.add(book);
+//   }
 
    //delete user method needed
+
+
+    public List<UserCopy> getUserCopyList() {
+        return userCopyList;
+    }
+
+    public void setUserCopyList(List<UserCopy> userCopyList) {
+        this.userCopyList = userCopyList;
+    }
+
+    public void addUserCopy(UserCopy userCopy) {
+        this.userCopyList.add(userCopy);
+    }
 
     @Override
     public String toString() {

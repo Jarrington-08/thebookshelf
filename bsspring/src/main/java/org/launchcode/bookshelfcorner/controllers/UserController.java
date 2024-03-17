@@ -34,6 +34,7 @@ public class UserController {
     private FavoriteBookRepository favoriteBookRepository;
 
     //Users can add genres to their profiles
+    //take a look at this. Is the setUser method even necessary for newGenre?
    @PostMapping("/addGenre/{userId}")
    public String saveGenre(@PathVariable int userId, @RequestBody String genre) {
        Optional optUser = userRepository.findById(userId);
