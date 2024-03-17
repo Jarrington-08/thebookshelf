@@ -35,7 +35,7 @@ public class User extends AbstractEntity {
 //    @ManyToMany
 //    private List<Book> bookList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     @JsonBackReference
     private List<UserCopy> userCopyList;
 
