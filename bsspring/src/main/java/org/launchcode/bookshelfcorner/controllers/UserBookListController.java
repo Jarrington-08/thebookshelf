@@ -69,7 +69,7 @@ public class UserBookListController {
     }
 
     @GetMapping("/getUserBookList/{userId}")
-    public List<UserCopy> getUserBookList(@PathVariable int userId) {
+    public Iterable <UserCopy> getUserBookList(@PathVariable int userId) {
         Optional<User> optUser = userRepository.findById(userId);
         if (optUser.isPresent()) {
             User user = optUser.get();

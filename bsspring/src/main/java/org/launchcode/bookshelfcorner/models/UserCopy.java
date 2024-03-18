@@ -37,5 +37,43 @@ public class UserCopy extends AbstractEntity {
         this.isAvailable = true;
     }
 
+    public User getOwner() {
+        return owner;
+    }
 
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    public int getBorrowerId() {
+        return borrowerId;
+    }
+
+    public void setBorrowerId(int borrowerId) {
+        this.borrowerId = borrowerId;
+    }
+
+    public Date getDateBorrowed() {
+        return dateBorrowed;
+    }
+
+    public void setDateBorrowed(Date dateBorrowed) {
+        this.dateBorrowed = dateBorrowed;
+    }
 }
