@@ -231,8 +231,8 @@ export default function Profile() {
                                     <ul class="list-group mb-1"> 
                                     {
                                         bookList.map(
-                                            book =>
-                                            <li class="list-group-item">{book.title}</li>
+                                            userCopy =>
+                                            <li class="list-group-item">{userCopy.book.title}</li>
                                         )
                                     }
                                     </ul>
