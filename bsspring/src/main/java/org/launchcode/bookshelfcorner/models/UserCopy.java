@@ -12,12 +12,12 @@ public class UserCopy extends AbstractEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnore
+//    @JsonIgnore
     private User owner;
 
     @ManyToOne
     @JoinColumn(name = "book_id")
-    @JsonIgnore
+//    @JsonIgnore
     private Book book;
 
     private boolean isAvailable;
