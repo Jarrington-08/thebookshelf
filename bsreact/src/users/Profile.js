@@ -232,7 +232,7 @@ export default function Profile() {
                                     {
                                         bookList.map(
                                             userCopy =>
-                                            <li class="list-group-item">{userCopy.book.title}</li>
+                                            <li class="list-group-item"><img style={{width:100 ,height: 150, marginRight: "2em"}} src={userCopy.book.coverUrl ? userCopy.book.coverUrl : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"} alt={userCopy.book.title}></img>{userCopy.book.title}</li>
                                         )
                                     }
                                     </ul>
