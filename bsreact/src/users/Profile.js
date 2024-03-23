@@ -227,15 +227,15 @@ export default function Profile() {
                             <div class="card-body">
                                 <p class="mb-4"><span class="text-secondary font-italic me-1">My</span> Books
                                 </p>
-                                <div class="row justifiy-content-left">
-                                    <ul class="list-group mb-1"> 
-                                    {
-                                        bookList.map(
-                                            userCopy =>
-                                            <li class="list-group-item"><img style={{width:100 ,height: 150, marginRight: "2em"}} src={userCopy.book.coverUrl ? userCopy.book.coverUrl : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"} alt={userCopy.book.title}></img>{userCopy.book.title}</li>
-                                        )
-                                    }
-                                    </ul>
+                                <div class="mt-5 mx-auto">
+                                {
+                                    bookList.map(
+                                        userCopy =>
+                                        <div style={{justifyContent: "left", display: "flex", flexDirection: "row", margin:"auto"}}>
+                                            <img style={{width:100 ,height: 150, marginRight: "2em"}} src={userCopy.book.coverUrl ? userCopy.book.coverUrl : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"} alt={userCopy.book.title}></img>{userCopy.book.title}
+                                        </div>
+                                    )
+                                }
                                 </div>
                             </div>
                         </div>
