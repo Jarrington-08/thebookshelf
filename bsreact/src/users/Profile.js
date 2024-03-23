@@ -222,12 +222,12 @@ export default function Profile() {
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div>
                         <div class="card mb-4 mb-md-0">
                             <div class="card-body">
                                 <p class="mb-4"><span class="text-secondary font-italic me-1">My</span> Books
                                 </p>
-                                <div class="row">
+                                <div class="row justifiy-content-left">
                                     <ul class="list-group mb-1"> 
                                     {
                                         bookList.map(
