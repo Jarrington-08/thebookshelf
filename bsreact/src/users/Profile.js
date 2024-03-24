@@ -184,7 +184,7 @@ export default function Profile() {
                     
                 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 mb-4">
                         <div class="card mb-4 mb-md-0">
                             <div class="card-body">
                                 <p class="mb-4"><span class="text-secondary font-italic me-1">Favorite</span> Books
@@ -231,7 +231,7 @@ export default function Profile() {
                                 {
                                     bookList.map(
                                         userCopy =>
-                                        <div style={{justifyContent: "left", display: "flex", flexDirection: "row", margin:"auto"}}>
+                                        <div style={{justifyContent: "left", display: "flex", flexDirection: "row", margin:"1em"}}>
                                             <img style={{width:100 ,height: 150, marginRight: "2em"}} src={userCopy.book.coverUrl ? userCopy.book.coverUrl : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"} alt={userCopy.book.title}></img>{userCopy.book.title}
                                         </div>
                                     )
