@@ -228,14 +228,15 @@ export default function Profile() {
                                 <p class="mb-4"><span class="text-secondary font-italic me-1">My</span> Books
                                 </p>
                                 <div class="mt-5 mx-auto">
-                                {
-                                    bookList.map(
-                                        userCopy =>
-                                        <div style={{justifyContent: "left", display: "flex", flexDirection: "row", margin:"1em"}}>
-                                            <img style={{width:100 ,height: 150, marginRight: "2em"}} src={userCopy.book.coverUrl ? userCopy.book.coverUrl : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"} alt={userCopy.book.title}></img>{userCopy.book.title}
-                                        </div>
-                                    )
-                                }
+                                    {
+                                        bookList.map(
+                                            userCopy =>
+                                            <div style={{justifyContent: "left", display: "flex", flexDirection: "row", margin:"1em"}}>
+                                                <img style={{width:100 ,height: 150, marginRight: "2em"}} src={userCopy.book.coverUrl ? userCopy.book.coverUrl : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"} alt={userCopy.book.title}></img>{userCopy.book.title}
+                                            </div>
+                                        )
+                                    }
+                                    <a class="btn btn-secondary" href="/addBook">Add a Book</a>    
                                 </div>
                             </div>
                         </div>
