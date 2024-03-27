@@ -19,6 +19,17 @@ export default function Profile() {
     const [location, setLocation] = useState('');
     const [bookList, setBookList] = useState([]);
 
+    function deleteUserCopy(userId) {
+        fetch("http://localhost:8080/deleteUserCopy"+userId+bookId, {
+            method: "DELETE",
+            headers: {
+                "content-type": "text/plain"
+            },
+        })
+        .then((response => response.json))
+    }
+
+
     useEffect(() => {
 
         const fetchUsername = async () => {
@@ -119,6 +130,7 @@ export default function Profile() {
             })
             .catch((error) => error);
         };
+
         
         fetchContactInfo();
         fetchLocation();
@@ -232,7 +244,8 @@ export default function Profile() {
                                         bookList.map(
                                             userCopy =>
                                             <div style={{justifyContent: "left", display: "flex", flexDirection: "row", margin:"1em"}}>
-                                                <img style={{width:100 ,height: 150, marginRight: "2em"}} src={userCopy.book.coverUrl ? userCopy.book.coverUrl : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"} alt={userCopy.book.title}></img>{userCopy.book.title}
+                                                <img style={{width:100 ,height: 150, marginRight: "2em"}} src={userCopy.book.coverUrl ? userCopy.book.coverUrl : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"} alt={userCopy.book.title}></img>
+                                                {userCopy.book.title}<button onClick={}>Delete</button>
                                             </div>
                                         )
                                     }
