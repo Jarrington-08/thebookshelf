@@ -30,7 +30,7 @@ public class UserBookListController {
     @Autowired
     UserCopyRepository userCopyRepository;
 
-    @PostMapping(value = "/addBook/{userId}", consumes = "application/json;charset=UTF-8")
+    @PostMapping(value = "/addUserCopy/{userId}", consumes = "application/json;charset=UTF-8")
     //Do I need to use a book object? Don't forget to account for missing data (again, do I send default values from front end if missing?)
     //Do I just default to null? And then handle it again in the front end when nothing renders for that data?
     //Needs to return EntityResponse ultimately
@@ -79,5 +79,11 @@ public class UserBookListController {
             //return "User not found";
         }
         return null;
+    }
+
+    @DeleteMapping("/deleteUserCopy{userCopyId}")
+    public String deleteUserCopy(@PathVariable int userCopyId) {
+        userCopyRepository.deleteById(userCopyId);
+        return "Book deleted from user list";
     }
 }

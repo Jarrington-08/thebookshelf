@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
 
+    const navigate = useNavigate();
     const userId = window.sessionStorage.getItem("userId");
     const backgroundStyle = {
         background: "eee;"
@@ -19,14 +21,14 @@ export default function Profile() {
     const [location, setLocation] = useState('');
     const [bookList, setBookList] = useState([]);
 
-    function deleteUserCopy(userId) {
-        fetch("http://localhost:8080/deleteUserCopy"+userId+bookId, {
+    function deleteUserCopy(userCopyId) {
+        fetch("http://localhost:8080/deleteUserCopy"+userCopyId, {
             method: "DELETE",
             headers: {
                 "content-type": "text/plain"
             },
         })
-        .then((response => response.json))
+        return navigate(0);
     }
 
 
@@ -245,7 +247,7 @@ export default function Profile() {
                                             userCopy =>
                                             <div style={{justifyContent: "left", display: "flex", flexDirection: "row", margin:"1em"}}>
                                                 <img style={{width:100 ,height: 150, marginRight: "2em"}} src={userCopy.book.coverUrl ? userCopy.book.coverUrl : "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"} alt={userCopy.book.title}></img>
-                                                {userCopy.book.title}<button onClick={}>Delete</button>
+                                                <span class="m-5">{userCopy.book.title}</span><div class="m-5"><button class="btn btn-secondary" onClick={() => deleteUserCopy(userCopy.id)}>X</button></div>
                                             </div>
                                         )
                                     }

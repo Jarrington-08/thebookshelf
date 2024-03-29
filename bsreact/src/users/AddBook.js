@@ -21,7 +21,7 @@ const [noResults, setNoResults] = useState('');
 const key = "AIzaSyD9ff8jAsbKpTfVfIAwdfBInX5AlgYMsWo";
 
 function handleAddBook(title, authors, isbn, yearPublished, coverUrl) {
-    fetch("http://localhost:8080/addBook/"+window.sessionStorage.getItem("userId"), {
+    fetch("http://localhost:8080/addUserCopy/"+window.sessionStorage.getItem("userId"), {
             method: "POST",
             headers: {
                 "content-type": "application/json"
