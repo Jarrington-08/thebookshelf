@@ -119,10 +119,10 @@ const onTitleFocus = (e) => {
                 <h2 style={{margin: "3rem"}}>Add a book to your personal collection:</h2>
                 <div class="row d-flex align-items-center">
                         <form method="Get" onSubmit={handleSubmitSearch} class="mb-5">
-                            <input type="text" name="searchTerm" placeholder='Search' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeSearch} onFocus={onSearchFocus}/>
+                            <input type="text" name="searchTerm" placeholder='Search' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeSearch} onFocus={onSearchFocus}/><br />
                             <div>
-                                Need to refine your search? Try adding a title or author to your search query.
-                                <input type="text" name="author" placeholder='Search by title' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeTitle} onFocus={onTitleFocus}/>
+                                <p>Add a specific title or author to your search query:</p>
+                                <input type="text" name="author" placeholder='Search by title' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeTitle} onFocus={onTitleFocus}/><br />
                                 <input type="text" name="title" placeholder='Search by author' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeAuthor} onFocus={onAuthorFocus}/>
                             </div>
                             <input type="submit" class="btn btn-secondary mt-2" value="Search"/>
