@@ -17,9 +17,6 @@ const [searchTerm, setSearchTerm] = useState('');
 // const [searchError, setSearchError] = useState('');
 const [noResults, setNoResults] = useState('');
 
-// const key = window.sessionStorage.getItem("key");
-const key = "AIzaSyD9ff8jAsbKpTfVfIAwdfBInX5AlgYMsWo";
-
 function handleAddBook(title, authors, isbn, yearPublished, coverUrl) {
     fetch("http://localhost:8080/addUserCopy/"+window.sessionStorage.getItem("userId"), {
             method: "POST",
@@ -38,16 +35,14 @@ function handleAddBook(title, authors, isbn, yearPublished, coverUrl) {
 
 const handleInputChangeSearch = (e) => {
     setSearchTerm(e.target.value);
-    //make GB api call here
 }
 function handleSubmitSearch(event) {
             if (searchTerm === "") {
-                // setSearchError("Please enter a search query");
                 event.preventDefault();
             }
             searchTerm.toString();
             event.preventDefault();
-            fetch("https://content-books.googleapis.com/books/v1/volumes?q="+searchTerm+"&key="+key+"&maxResults=20", {
+            fetch("https://content-books.googleapis.com/books/v1/volumes?q="+searchTerm+"&maxResults=20", {
             "headers": {
         },
         "body": null,
@@ -67,9 +62,6 @@ function handleSubmitSearch(event) {
             
         })
         //is .catch((error) => error); needed here? what does it do? Reserach this
-        // console.log(key);
-        // console.log(searchTerm);
-        // console.log(books.items[0].volumeInfo.imageLinks.smallThumbnail);
 };
 
 function handleNextClick(event) {
@@ -84,7 +76,6 @@ function handleBackClick(event) {
 
 const onSearchFocus = (e) => {
     e.preventDefault();
-    // setSearchError('');
     setNoResults('');
     
 }
@@ -100,9 +91,7 @@ const onSearchFocus = (e) => {
                             <input type="text" name="searchTerm" value={searchTerm} placeholder='Search by title or author' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeSearch} onFocus={onSearchFocus}/>
                             <input type="submit" class="btn btn-secondary mt-2" value="Search"/>
                         </form>
-                        {/* {
-                            searchError ? <span style={{ color: 'red', fontSize: '16px'}}>{searchError}</span> : ''
-                        } */}
+                        
                 </div>
                 <div class="mt-5 mx-auto">
                     {isDataRetrieved ? currentRecords.map(
