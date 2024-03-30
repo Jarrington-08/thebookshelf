@@ -10,6 +10,9 @@ const indexOfLastRecord = currentPage * recordsPerPage;
 const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
 const currentRecords = books ? books.slice(indexOfFirstRecord, indexOfLastRecord) : null;
 const [isDataRetrieved, setIsDataRetrieved] = useState(false);
+const [author, setAuthor] = useState('');
+const [title, setTitle] = useState('');
+
 //Do I need to make this a book object?
 //Or would I select one book object from array of books?
 // const [book, setBook] = useState('');
@@ -36,13 +39,30 @@ function handleAddBook(title, authors, isbn, yearPublished, coverUrl) {
 const handleInputChangeSearch = (e) => {
     setSearchTerm(e.target.value);
 }
+
+const handleInputChangeAuthor = (e) => {
+    setAuthor(e.target.value);
+}
+
+const handleInputChangeTitle = (e) => {
+    setTitle(e.target.value);
+}
+
 function handleSubmitSearch(event) {
             if (searchTerm === "") {
                 event.preventDefault();
             }
+            if (title) {
+                setTitle("intitle:"+title);
+                title.toString();
+            }
+            if (author) {
+                setTitle("inauthor:"+author);
+                author.toString();
+            }
             searchTerm.toString();
             event.preventDefault();
-            fetch("https://content-books.googleapis.com/books/v1/volumes?q="+searchTerm+"&maxResults=20", {
+            fetch("https://content-books.googleapis.com/books/v1/volumes?q="+searchTerm+title+author+"&maxResults=20", {
             "headers": {
         },
         "body": null,
@@ -80,6 +100,17 @@ const onSearchFocus = (e) => {
     
 }
 
+const onAuthorFocus = (e) => {
+    e.preventDefault();
+    setAuthor('');
+    
+}
+
+const onTitleFocus = (e) => {
+    e.preventDefault();
+    setTitle('');
+    
+}
 
 
     return(
@@ -88,7 +119,12 @@ const onSearchFocus = (e) => {
                 <h2 style={{margin: "3rem"}}>Add a book to your personal collection:</h2>
                 <div class="row d-flex align-items-center">
                         <form method="Get" onSubmit={handleSubmitSearch} class="mb-5">
-                            <input type="text" name="searchTerm" value={searchTerm} placeholder='Search by title or author' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeSearch} onFocus={onSearchFocus}/>
+                            <input type="text" name="searchTerm" placeholder='Search' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeSearch} onFocus={onSearchFocus}/>
+                            <div>
+                                Need to refine your search? Try adding a title or author to your search query.
+                                <input type="text" name="author" placeholder='Search by title' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeTitle} onFocus={onTitleFocus}/>
+                                <input type="text" name="title" placeholder='Search by author' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeAuthor} onFocus={onAuthorFocus}/>
+                            </div>
                             <input type="submit" class="btn btn-secondary mt-2" value="Search"/>
                         </form>
                         
