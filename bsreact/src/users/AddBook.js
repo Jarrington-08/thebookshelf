@@ -9,9 +9,11 @@ const [recordsPerPage] = useState(5);
 const indexOfLastRecord = currentPage * recordsPerPage;
 const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
 const currentRecords = books ? books.slice(indexOfFirstRecord, indexOfLastRecord) : null;
+const [totalPages, setTotalPages] = useState(0);
 const [isDataRetrieved, setIsDataRetrieved] = useState(false);
 const [author, setAuthor] = useState('');
 const [title, setTitle] = useState('');
+const [isbn, setIsbn] = useState('');
 
 //Do I need to make this a book object?
 //Or would I select one book object from array of books?
@@ -48,21 +50,17 @@ const handleInputChangeTitle = (e) => {
     setTitle(e.target.value);
 }
 
+const handleInputChangeIsbn = (e) => {
+    setIsbn(e.target.value);
+}
+
 function handleSubmitSearch(event) {
             if (searchTerm === "") {
                 event.preventDefault();
             }
-            if (title) {
-                setTitle("intitle:"+title);
-                title.toString();
-            }
-            if (author) {
-                setTitle("inauthor:"+author);
-                author.toString();
-            }
-            searchTerm.toString();
+          
             event.preventDefault();
-            fetch("https://content-books.googleapis.com/books/v1/volumes?q="+searchTerm+title+author+"&maxResults=20", {
+            fetch("https://content-books.googleapis.com/books/v1/volumes?q="+searchTerm+"+intitle:"+title+"+inauthor:"+author+"+isbn:"+isbn+"&maxResults=20", {
             "headers": {
         },
         "body": null,
@@ -74,6 +72,7 @@ function handleSubmitSearch(event) {
                 setBooks(data.items);
                 setIsDataRetrieved(true);
                 setCurrentPage(1);
+                setTotalPages(Math.ceil(data.totalItems / 5));
             }
             if (data.totalItems === 0) {
                 setIsDataRetrieved(false);
@@ -96,7 +95,7 @@ function handleBackClick(event) {
 
 const onSearchFocus = (e) => {
     e.preventDefault();
-    setNoResults('');
+    setSearchTerm('');
     
 }
 
@@ -112,6 +111,11 @@ const onTitleFocus = (e) => {
     
 }
 
+const onIsbnFocus = (e) => {
+    e.preventDefault();
+    setIsbn('');
+}
+
 
     return(
         <body class="text-center bg">
@@ -119,11 +123,12 @@ const onTitleFocus = (e) => {
                 <h2 style={{margin: "3rem"}}>Add a book to your personal collection:</h2>
                 <div class="row d-flex align-items-center">
                         <form method="Get" onSubmit={handleSubmitSearch} class="mb-5">
-                            <input type="text" name="searchTerm" placeholder='Search' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeSearch} onFocus={onSearchFocus}/><br />
+                            <input type="text" value={searchTerm} name="searchTerm" placeholder='Search' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeSearch} onFocus={onSearchFocus}/><br />
                             <div>
-                                <p>Add a specific title or author to your search query:</p>
-                                <input type="text" name="author" placeholder='Search by title' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeTitle} onFocus={onTitleFocus}/><br />
-                                <input type="text" name="title" placeholder='Search by author' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeAuthor} onFocus={onAuthorFocus}/>
+                                <p>Add an optional title or author<br />Or search by ISBN:</p>
+                                <input type="text" value={title} name="title" placeholder='Title' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeTitle} onFocus={onTitleFocus}/><br />
+                                <input type="text" value={author} name="author" placeholder='Author' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeAuthor} onFocus={onAuthorFocus}/><br />
+                                <input type="text" value={isbn} name="isbn" placeholder='ISBN' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeIsbn} onFocus={onIsbnFocus}/>
                             </div>
                             <input type="submit" class="btn btn-secondary mt-2" value="Search"/>
                         </form>
@@ -142,8 +147,8 @@ const onTitleFocus = (e) => {
                             ) : noResults
                     }
                     <span>
-                        {isDataRetrieved && currentPage < 4 ? <button type="button" class="btn btn-secondary mx-1" onClick={handleNextClick}>Next</button> : ""}
-                        {currentPage > 1 ? <button type="button" class="btn btn-secondary mx-1" onClick={handleBackClick}>Back</button> : ""}
+                        {isDataRetrieved && currentPage <= (totalPages) ? <button type="button" class="btn btn-secondary mx-1" onClick={handleNextClick}>Next</button> : ""}
+                        {currentPage > 1 && currentPage <= totalPages ? <button type="button" class="btn btn-secondary mx-1" onClick={handleBackClick}>Back</button> : ""}
                     </span>
                 </div>
             </div>
