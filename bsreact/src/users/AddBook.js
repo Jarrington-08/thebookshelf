@@ -12,8 +12,13 @@ const currentRecords = books ? books.slice(indexOfFirstRecord, indexOfLastRecord
 const [totalPages, setTotalPages] = useState(0);
 const [isDataRetrieved, setIsDataRetrieved] = useState(false);
 const [author, setAuthor] = useState('');
+const [authorOption, setAuthorOption] = useState('');
 const [title, setTitle] = useState('');
+const [titleOption, setTitleOption] = useState('');
 const [isbn, setIsbn] = useState('');
+const [isbnOption, setIsbnOption] = useState('');
+
+
 
 //Do I need to make this a book object?
 //Or would I select one book object from array of books?
@@ -55,13 +60,27 @@ const handleInputChangeIsbn = (e) => {
 }
 
 function handleSubmitSearch(event) {
-            if (searchTerm === "") {
-                event.preventDefault();
-            }
-          
+        if (searchTerm === '') {
             event.preventDefault();
-            fetch("https://content-books.googleapis.com/books/v1/volumes?q="+searchTerm+"+intitle:"+title+"+inauthor:"+author+"+isbn:"+isbn+"&maxResults=20", {
-            "headers": {
+            return(false);
+        }
+        
+        if (title !== '') {
+            setTitleOption("+intitle:"+title);
+        }
+
+        if (author !== '') {
+            setAuthorOption("+inauthor:"+author);
+        }
+
+        if (isbn !== '') {
+            setIsbnOption("+isbn:"+isbn);
+        }
+
+
+        event.preventDefault();
+        fetch("https://content-books.googleapis.com/books/v1/volumes?q="+searchTerm+titleOption+authorOption+isbnOption+"&maxResults=20", {
+        "headers": {
         },
         "body": null,
         "method": "GET"
@@ -72,13 +91,12 @@ function handleSubmitSearch(event) {
                 setBooks(data.items);
                 setIsDataRetrieved(true);
                 setCurrentPage(1);
-                setTotalPages(Math.ceil(data.totalItems / 5));
+                setTotalPages(Math.ceil(Number(data.totalItems) / 5));
             }
             if (data.totalItems === 0) {
                 setIsDataRetrieved(false);
                 setNoResults("Your search did not return any results");
             }
-            
         })
         //is .catch((error) => error); needed here? what does it do? Reserach this
 };
@@ -102,18 +120,20 @@ const onSearchFocus = (e) => {
 const onAuthorFocus = (e) => {
     e.preventDefault();
     setAuthor('');
+    setAuthorOption('');
     
 }
 
 const onTitleFocus = (e) => {
     e.preventDefault();
     setTitle('');
-    
+    setTitleOption('');
 }
 
 const onIsbnFocus = (e) => {
     e.preventDefault();
     setIsbn('');
+    setIsbnOption('');
 }
 
 
@@ -147,7 +167,7 @@ const onIsbnFocus = (e) => {
                             ) : noResults
                     }
                     <span>
-                        {isDataRetrieved && currentPage <= (totalPages) ? <button type="button" class="btn btn-secondary mx-1" onClick={handleNextClick}>Next</button> : ""}
+                        {isDataRetrieved && currentPage < totalPages ? <button type="button" class="btn btn-secondary mx-1" onClick={handleNextClick}>Next</button> : ""}
                         {currentPage > 1 && currentPage <= totalPages ? <button type="button" class="btn btn-secondary mx-1" onClick={handleBackClick}>Back</button> : ""}
                     </span>
                 </div>
