@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function AddBook() {
 
@@ -91,7 +91,8 @@ function handleSubmitSearch(event) {
                 setBooks(data.items);
                 setIsDataRetrieved(true);
                 setCurrentPage(1);
-                setTotalPages(Math.ceil(Number(data.totalItems) / 5));
+                setTotalPages(Math.ceil(Number(data.items.length) / 5));
+                console.log(totalPages);
             }
             if (data.totalItems === 0) {
                 setIsDataRetrieved(false);
@@ -135,6 +136,10 @@ const onIsbnFocus = (e) => {
     setIsbn('');
     setIsbnOption('');
 }
+
+useEffect(() => {
+    
+},[]);
 
 
     return(
