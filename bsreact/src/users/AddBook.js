@@ -18,8 +18,7 @@ const [titleOption, setTitleOption] = useState('');
 const [isbn, setIsbn] = useState('');
 const [isbnOption, setIsbnOption] = useState('');
 const [searchTerm, setSearchTerm] = useState('');
-// const [searchError, setSearchError] = useState('');
-const [noResults, setNoResults] = useState('');
+const [searchError, setSearchError] = useState('');
 
 function handleAddBook(title, authors, isbn, yearPublished, coverUrl) {
     fetch("http://localhost:8080/addUserCopy/"+window.sessionStorage.getItem("userId"), {
@@ -56,6 +55,7 @@ const handleInputChangeIsbn = (e) => {
 function handleSubmitSearch(event) {
         if (searchTerm === '') {
             event.preventDefault();
+            setSearchError("Please enter a search query")
             return(false);
         }
 
@@ -77,7 +77,7 @@ function handleSubmitSearch(event) {
             }
             if (data.totalItems === 0) {
                 setIsDataRetrieved(false);
-                setNoResults("Your search did not return any results");
+                setSearchError("Your search did not return any results");
             }
         })
         //is .catch((error) => error); needed here? what does it do? Reserach this
@@ -96,7 +96,7 @@ function handleBackClick(event) {
 const onSearchFocus = (e) => {
     e.preventDefault();
     setSearchTerm('');
-    
+    setSearchError('');
 }
 
 const onAuthorFocus = (e) => {
@@ -159,7 +159,7 @@ useEffect(() => {
                             "Publication Year Unavailable"} <button class="btn btn-secondary" onClick={() => { handleAddBook(book.volumeInfo.title, book.volumeInfo.authors, book.volumeInfo.industryIdentifiers[0].identifier, book.volumeInfo.publishedDate.slice(0,4), book.volumeInfo.imageLinks.smallThumbnail)}}>Add</button> 
                             </p>
                         </div>
-                            ) : noResults
+                            ) : searchError
                     }
                     <span>
                         {isDataRetrieved && currentPage < totalPages ? <button type="button" class="btn btn-secondary mx-1" onClick={handleNextClick}>Next</button> : ""}
