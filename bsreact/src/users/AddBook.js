@@ -17,12 +17,6 @@ const [title, setTitle] = useState('');
 const [titleOption, setTitleOption] = useState('');
 const [isbn, setIsbn] = useState('');
 const [isbnOption, setIsbnOption] = useState('');
-
-
-
-//Do I need to make this a book object?
-//Or would I select one book object from array of books?
-// const [book, setBook] = useState('');
 const [searchTerm, setSearchTerm] = useState('');
 // const [searchError, setSearchError] = useState('');
 const [noResults, setNoResults] = useState('');
@@ -64,19 +58,6 @@ function handleSubmitSearch(event) {
             event.preventDefault();
             return(false);
         }
-        
-        if (title !== '') {
-            setTitleOption("+intitle:"+title);
-        }
-
-        if (author !== '') {
-            setAuthorOption("+inauthor:"+author);
-        }
-
-        if (isbn !== '') {
-            setIsbnOption("+isbn:"+isbn);
-        }
-
 
         event.preventDefault();
         fetch("https://content-books.googleapis.com/books/v1/volumes?q="+searchTerm+titleOption+authorOption+isbnOption+"&maxResults=20", {
@@ -138,8 +119,17 @@ const onIsbnFocus = (e) => {
 }
 
 useEffect(() => {
-    
-},[]);
+    if (title) {
+        setTitleOption("+intitle:"+title); 
+    }
+    if (author) {
+        setAuthorOption("+inauthor:"+author);
+    }
+
+    if (isbn) {
+        setIsbnOption("+isbn:"+isbn);
+    }
+},[title, author, isbn]);
 
 
     return(
@@ -153,7 +143,7 @@ useEffect(() => {
                                 <p>Add an optional title or author<br />Or search by ISBN:</p>
                                 <input type="text" value={title} name="title" placeholder='Title' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeTitle} onFocus={onTitleFocus}/><br />
                                 <input type="text" value={author} name="author" placeholder='Author' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeAuthor} onFocus={onAuthorFocus}/><br />
-                                <input type="text" value={isbn} name="isbn" placeholder='ISBN' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeIsbn} onFocus={onIsbnFocus}/>
+                                <input type="text" value={isbn} name="isbn" placeholder='ISBN' class="form-control mb-2 w-25 mx-auto" onChange={handleInputChangeIsbn} onFocus={onIsbnFocus}/><br />
                             </div>
                             <input type="submit" class="btn btn-secondary mt-2" value="Search"/>
                         </form>
