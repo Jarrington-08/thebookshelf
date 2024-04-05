@@ -1,6 +1,7 @@
 package org.launchcode.bookshelfcorner.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -10,12 +11,12 @@ import java.util.Date;
 @Entity
 public class UserCopy extends AbstractEntity {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User owner;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "book_id")
 //    @JsonIgnore
     private Book book;

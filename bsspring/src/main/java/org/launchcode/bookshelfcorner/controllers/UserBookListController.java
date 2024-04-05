@@ -43,21 +43,18 @@ public class UserBookListController {
         if (optUser.isEmpty()) {
             return "User does not exist";
         }
+        //!!! Debug this when trying to re-add a previously added book then refactor to if (optNewBook.isEmpty()) {save.Bookrepo} then get rid of redundant user code outside of if statement
         User user = optUser.get();
-        if (optNewBook.isPresent()) {
-            Book existingBook = optNewBook.get();
-            //!!!This is not currently working - need to fix - !!!
-            //This logic allows for users to add multiple copies of the same volume if they possess them.
-            //In the future, it would probably be good to use a pop to confirm adding an existing book
+        if (optNewBook.isEmpty()) {
+            bookRepository.save(book);
             UserCopy userCopy = new UserCopy(book, user);
             userCopyRepository.save(userCopy);
-            //These lines don't seem necessary. It doesn't seem like they are doing anything. Rewatch the LC java videos to clarify
+//            //In the future, it would probably be good to use a pop to confirm adding an existing book
+            //The following lines don't seem necessary. It doesn't seem like they are doing anything. Rewatch the LC java videos to clarify
 //            user.addUserCopy(userCopy);
 //            existingBook.addUserCopy(userCopy);
         } else {
-            //Will this work for book.adduserCopy? I feel like I might need to create a Book object first (but the method @requestbody requires a book object
-            bookRepository.save(book);
-            UserCopy userCopy = new UserCopy(book, user);
+            UserCopy userCopy = new UserCopy(optNewBook.get(), user);
             userCopyRepository.save(userCopy);
 //            user.addUserCopy(userCopy);
 //            book.addUserCopy(userCopy);
