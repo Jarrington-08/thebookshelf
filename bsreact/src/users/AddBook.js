@@ -1,135 +1,143 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 export default function AddBook() {
 
-const userId = window.sessionStorage.getItem("userId");
-const [books, setBooks] = useState([]);
-const [currentPage, setCurrentPage] = useState(1);
-const [recordsPerPage] = useState(5);
-const indexOfLastRecord = currentPage * recordsPerPage;
-const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-const currentRecords = books ? books.slice(indexOfFirstRecord, indexOfLastRecord) : null;
-const [totalPages, setTotalPages] = useState(0);
-const [isDataRetrieved, setIsDataRetrieved] = useState(false);
-const [author, setAuthor] = useState('');
-const [authorOption, setAuthorOption] = useState('');
-const [title, setTitle] = useState('');
-const [titleOption, setTitleOption] = useState('');
-const [isbn, setIsbn] = useState('');
-const [isbnOption, setIsbnOption] = useState('');
-const [searchTerm, setSearchTerm] = useState('');
-const [searchError, setSearchError] = useState('');
+    const navigate = useNavigate();    
+    const userId = window.sessionStorage.getItem("userId");
+    const [books, setBooks] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [recordsPerPage] = useState(5);
+    const indexOfLastRecord = currentPage * recordsPerPage;
+    const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+    const currentRecords = books ? books.slice(indexOfFirstRecord, indexOfLastRecord) : null;
+    const [totalPages, setTotalPages] = useState(0);
+    const [isDataRetrieved, setIsDataRetrieved] = useState(false);
+    const [author, setAuthor] = useState('');
+    const [authorOption, setAuthorOption] = useState('');
+    const [title, setTitle] = useState('');
+    const [titleOption, setTitleOption] = useState('');
+    const [isbn, setIsbn] = useState('');
+    const [isbnOption, setIsbnOption] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchError, setSearchError] = useState('');
 
-function handleAddBook(title, authors, isbn, yearPublished, coverUrl) {
-    fetch("http://localhost:8080/addUserCopy/"+window.sessionStorage.getItem("userId"), {
-            method: "POST",
-            headers: {
-                "content-type": "application/json"
-            },
-            body: JSON.stringify({
-                title,
-                authors,
-                isbn,
-                yearPublished,
-                coverUrl
-            }),
-        })
-}
+    function handleAddBook(title, authors, isbn, yearPublished, coverUrl) {
+        fetch("http://localhost:8080/addUserCopy/"+window.sessionStorage.getItem("userId"), {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    title,
+                    authors,
+                    isbn,
+                    yearPublished,
+                    coverUrl
+                }),
+            })
+            .then((response) => response.text())
+            .then((data) => {
+                if (data === "Book added") {
+                    navigate("/Profile")
+                }
+            })
+    }
 
-const handleInputChangeSearch = (e) => {
-    setSearchTerm(e.target.value);
-}
+    const handleInputChangeSearch = (e) => {
+        setSearchTerm(e.target.value);
+    }
 
-const handleInputChangeAuthor = (e) => {
-    setAuthor(e.target.value);
-}
+    const handleInputChangeAuthor = (e) => {
+        setAuthor(e.target.value);
+    }
 
-const handleInputChangeTitle = (e) => {
-    setTitle(e.target.value);
-}
+    const handleInputChangeTitle = (e) => {
+        setTitle(e.target.value);
+    }
 
-const handleInputChangeIsbn = (e) => {
-    setIsbn(e.target.value);
-}
+    const handleInputChangeIsbn = (e) => {
+        setIsbn(e.target.value);
+    }
 
-function handleSubmitSearch(event) {
-        if (searchTerm === '') {
+    function handleSubmitSearch(event) {
+            if (searchTerm === '') {
+                event.preventDefault();
+                setSearchError("Please enter a search query")
+                return(false);
+            }
+
             event.preventDefault();
-            setSearchError("Please enter a search query")
-            return(false);
+            fetch("https://content-books.googleapis.com/books/v1/volumes?q="+searchTerm+titleOption+authorOption+isbnOption+"&maxResults=20", {
+            "headers": {
+            },
+            "body": null,
+            "method": "GET"
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.totalItems !== 0 && !data.error) {
+                    setBooks(data.items);
+                    setIsDataRetrieved(true);
+                    setCurrentPage(1);
+                    setTotalPages(Math.ceil(Number(data.items.length) / 5));
+                    console.log(totalPages);
+                }
+                if (data.totalItems === 0) {
+                    setIsDataRetrieved(false);
+                    setSearchError("Your search did not return any results");
+                }
+            })
+            //is .catch((error) => error); needed here? what does it do? Reserach this
+    };
+
+    function handleNextClick(event) {
+        event.preventDefault();
+            setCurrentPage(currentPage+1);
+    }
+
+    function handleBackClick(event) {
+        event.preventDefault();
+            setCurrentPage(currentPage-1);
+    }
+
+    const onSearchFocus = (e) => {
+        e.preventDefault();
+        setSearchTerm('');
+        setSearchError('');
+    }
+
+    const onAuthorFocus = (e) => {
+        e.preventDefault();
+        setAuthor('');
+        setAuthorOption('');
+        
+    }
+
+    const onTitleFocus = (e) => {
+        e.preventDefault();
+        setTitle('');
+        setTitleOption('');
+    }
+
+    const onIsbnFocus = (e) => {
+        e.preventDefault();
+        setIsbn('');
+        setIsbnOption('');
+    }
+
+    useEffect(() => {
+        if (title) {
+            setTitleOption("+intitle:"+title); 
+        }
+        if (author) {
+            setAuthorOption("+inauthor:"+author);
         }
 
-        event.preventDefault();
-        fetch("https://content-books.googleapis.com/books/v1/volumes?q="+searchTerm+titleOption+authorOption+isbnOption+"&maxResults=20", {
-        "headers": {
-        },
-        "body": null,
-        "method": "GET"
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.totalItems !== 0 && !data.error) {
-                setBooks(data.items);
-                setIsDataRetrieved(true);
-                setCurrentPage(1);
-                setTotalPages(Math.ceil(Number(data.items.length) / 5));
-                console.log(totalPages);
-            }
-            if (data.totalItems === 0) {
-                setIsDataRetrieved(false);
-                setSearchError("Your search did not return any results");
-            }
-        })
-        //is .catch((error) => error); needed here? what does it do? Reserach this
-};
-
-function handleNextClick(event) {
-    event.preventDefault();
-        setCurrentPage(currentPage+1);
-}
-
-function handleBackClick(event) {
-    event.preventDefault();
-        setCurrentPage(currentPage-1);
-}
-
-const onSearchFocus = (e) => {
-    e.preventDefault();
-    setSearchTerm('');
-    setSearchError('');
-}
-
-const onAuthorFocus = (e) => {
-    e.preventDefault();
-    setAuthor('');
-    setAuthorOption('');
-    
-}
-
-const onTitleFocus = (e) => {
-    e.preventDefault();
-    setTitle('');
-    setTitleOption('');
-}
-
-const onIsbnFocus = (e) => {
-    e.preventDefault();
-    setIsbn('');
-    setIsbnOption('');
-}
-
-useEffect(() => {
-    if (title) {
-        setTitleOption("+intitle:"+title); 
-    }
-    if (author) {
-        setAuthorOption("+inauthor:"+author);
-    }
-
-    if (isbn) {
-        setIsbnOption("+isbn:"+isbn);
-    }
-},[title, author, isbn]);
+        if (isbn) {
+            setIsbnOption("+isbn:"+isbn);
+        }
+    },[title, author, isbn]);
 
 
     return(
