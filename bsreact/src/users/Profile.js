@@ -20,6 +20,7 @@ export default function Profile() {
     const [contactInfo, setContactInfo] = useState('');
     const [location, setLocation] = useState('');
     const [bookList, setBookList] = useState([]);
+    const [userProfilePicture, setUserProfilePicture] = useState('');  
 
     function deleteUserCopy(userCopyId) {
         fetch("http://localhost:8080/deleteUserCopy"+userCopyId, {
@@ -28,6 +29,10 @@ export default function Profile() {
                 "content-type": "text/plain"
             },
         })
+        //If I use useEffect correctly, I feel like this shouldn't be necessary
+        //Need to get this to update automatically without forced refresh along with favorite genre and book in EditProfile
+        //Also does it make more sense to move this to EditProfile?
+        //I could also add a 'add book' button to editProfile
         return navigate(0);
     }
 
@@ -153,7 +158,7 @@ export default function Profile() {
                     <div class="col-lg-4">
                         <div class="card mb-4">
                             <div class="card-body text-center">
-                                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Default Avatar"
+                                <img src={userProfilePicture ? userProfilePicture : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} alt="Profile Picture"
                                 class="rounded-circle img-fluid" style={width}></img>
                                 <h5 class="my-3">{username}</h5>
                                 <p class="mb-0">About me:</p><br />

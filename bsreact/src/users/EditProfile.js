@@ -25,6 +25,9 @@ export default function EditProfile() {
     const [newContactInfo, setNewContactInfo] = useState('');
     const [location, setLocation] = useState('');
     const [newLocation, setNewLocation] = useState('');
+    const [userProfilePicture, setUserProfilePicture] = useState('');
+    const [picFile, setPicFile] = useState('');  
+
 
     function deleteGenre(genreId) {
         fetch("http://localhost:8080/deleteGenre/"+genreId, {method: "DELETE"});
@@ -250,8 +253,8 @@ export default function EditProfile() {
                 <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body text-center">
-                            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Default Avatar"
-                            class="rounded-circle img-fluid" style={width}></img>
+                            <img src={userProfilePicture ? userProfilePicture : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} alt="Profile Picture"
+                            class="rounded-circle img-fluid" style={width}></img><input type="file" id="picFile" name="filename" class="btn btn-secondary"></input><button class="btn btn-secondary">Submit</button>
                             <h5 class="my-3">{username}</h5>
                             <p class="mb-0">About me:</p><br />
                             <p class="text-muted mb-1">{aboutMe}</p><br />
