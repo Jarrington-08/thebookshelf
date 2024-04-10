@@ -27,6 +27,7 @@ export default function EditProfile() {
     const [newLocation, setNewLocation] = useState('');
     const [userProfilePicture, setUserProfilePicture] = useState('');
     const [picFile, setPicFile] = useState();  
+    const [picPreview, setPicPreview] = useState();
 
     
 
@@ -137,7 +138,8 @@ export default function EditProfile() {
     }
 
     function handleChangePicFile(event) {
-        setFile(event.target.files[0])
+        setPicFile(event.target.files[0]);
+        setPicPreview(URL.createObjectURL(event.target.files[0]));
       }
 
     const handleInputChangeLocation = (e) => {
@@ -275,6 +277,10 @@ export default function EditProfile() {
                             <form onSubmit={handleSubmitPicFile}>
                                 <input type="file" id="picFile" name="filename" class="btn btn-secondary" onChange={handleChangePicFile}></input>
                                 <button type="submit" class="btn btn-secondary">Submit</button>
+                                <div>
+                                    <p>New Picture Preview:</p>
+                                    <img src={picPreview} class="rounded-circle img-fluid"/>
+                                </div>
                             </form>
                             <h5 class="my-3">{username}</h5>
                             <p class="mb-0">About me:</p><br />
