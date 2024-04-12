@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Book;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +33,9 @@ public class UserController {
 
     @Autowired
     private FavoriteBookRepository favoriteBookRepository;
+
+    @Autowired
+    private ImageService imageService;
 
     //Users can add genres to their profiles
     //take a look at this. Is the setUser method even necessary for newGenre?
@@ -221,6 +225,28 @@ public class UserController {
             return "User not found";
         }
     }
+
+
+    @PostMapping("/editProfilePicture/{userId}")
+    public String editProfilePicture(@PathVariable int userId, @RequestParam("profilePicture") File imageFile) {
+
+        Optional optUser = userRepository.findById(userId);
+
+        if (optUser.isPresent()) {
+            User user = (User) optUser.get();
+            String uploadDirectory = "src/main/resources/static/images";
+            String fileName = "";
+
+            fileName += imageService.saveImageToStorage(uploadDirectory, imageFile);
+
+            //Need to delete existing picture here to enable updating (delete from disk and save new fileName)
+            user.setProfilePictureFileName(fileName);
+            return "Profile Picture Updated";
+        }
+        return "User not found";
+
+    }
+
 
 
 

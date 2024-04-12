@@ -56,6 +56,8 @@ public class User extends AbstractEntity {
 
     private String contactInfo;
 
+    private String profilePictureFileName;
+
 //    @ManyToMany
 //    private List<Book> booksToShare = new ArrayList<>();
 
@@ -156,6 +158,14 @@ public class User extends AbstractEntity {
 
    //delete user method needed
 
+
+    public String getProfilePictureFileName() {
+        return profilePictureFileName;
+    }
+
+    public void setProfilePictureFileName(String profilePictureFileName) {
+        this.profilePictureFileName = profilePictureFileName;
+    }
 
     public List<UserCopy> getUserCopyList() {
         return userCopyList;
