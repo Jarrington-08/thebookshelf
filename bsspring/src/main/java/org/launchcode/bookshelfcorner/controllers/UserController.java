@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.print.Book;
 import java.io.File;
@@ -228,7 +229,7 @@ public class UserController {
 
 
     @PostMapping("/editProfilePicture/{userId}")
-    public String editProfilePicture(@PathVariable int userId, @RequestParam("profilePicture") File imageFile) {
+    public String editProfilePicture(@PathVariable int userId, @RequestParam("profilePicture") MultipartFile[] profilePicture) {
 
         Optional optUser = userRepository.findById(userId);
 
@@ -237,6 +238,7 @@ public class UserController {
             String uploadDirectory = "src/main/resources/static/images";
             String fileName = "";
 
+            for (MultipartFile imageFile : profilePicture)
             fileName += imageService.saveImageToStorage(uploadDirectory, imageFile);
 
             //Need to delete existing picture here to enable updating (delete from disk and save new fileName)
