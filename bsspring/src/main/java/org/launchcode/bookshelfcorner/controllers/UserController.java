@@ -8,6 +8,7 @@ import org.launchcode.bookshelfcorner.models.User;
 import org.launchcode.bookshelfcorner.repository.FavoriteBookRepository;
 import org.launchcode.bookshelfcorner.repository.GenreRepository;
 import org.launchcode.bookshelfcorner.repository.UserRepository;
+import org.launchcode.bookshelfcorner.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -236,10 +237,12 @@ public class UserController {
         if (optUser.isPresent()) {
             User user = (User) optUser.get();
             String uploadDirectory = "src/main/resources/static/images";
+            //The following line is the absolute path for THIS computer (my laptop) but will not match my desktop. Need to find a way to work with both without issue
+//            C:\Users\jarri\Documents\Code\thebookshelf\bsspring\src\main\java\org\launchcode\bookshelfcorner\resources\static\images
             String fileName = "";
 
             for (MultipartFile imageFile : profilePicture)
-            fileName += imageService.saveImageToStorage(uploadDirectory, imageFile);
+            fileName += imageService.saveImageToStorage(uploadDirectory, profilePicture);
 
             //Need to delete existing picture here to enable updating (delete from disk and save new fileName)
             user.setProfilePictureFileName(fileName);
