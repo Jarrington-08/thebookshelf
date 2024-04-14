@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.print.Book;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -230,7 +231,7 @@ public class UserController {
 
 
     @PostMapping("/editProfilePicture/{userId}")
-    public String editProfilePicture(@PathVariable int userId, @RequestParam("profilePicture") MultipartFile[] profilePicture) {
+    public String editProfilePicture(@PathVariable int userId, @RequestParam("profilePicture") MultipartFile profilePicture) throws IOException {
 
         Optional optUser = userRepository.findById(userId);
 
@@ -238,10 +239,12 @@ public class UserController {
             User user = (User) optUser.get();
             String uploadDirectory = "src/main/resources/static/images";
             //The following line is the absolute path for THIS computer (my laptop) but will not match my desktop. Need to find a way to work with both without issue
-//            C:\Users\jarri\Documents\Code\thebookshelf\bsspring\src\main\java\org\launchcode\bookshelfcorner\resources\static\images
+            //laptop absolute path:
+            //C:\Users\jarri\Documents\Code\thebookshelf\bsspring\src\main\java\org\launchcode\bookshelfcorner\resources\static\images
+            //PC absolute path:
+            //C:\Users\John\Documents\Code\The BookShelf\bsspring\src\main\resources\static\images
             String fileName = "";
 
-            for (MultipartFile imageFile : profilePicture)
             fileName += imageService.saveImageToStorage(uploadDirectory, profilePicture);
 
             //Need to delete existing picture here to enable updating (delete from disk and save new fileName)
