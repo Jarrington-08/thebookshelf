@@ -39,7 +39,11 @@ function App() {
               <Profile />
             </PrivateRoute>
           }/>
-          <Route exact path="/addBook" element={<AddBook />}></Route>
+          <Route exact path="/addBook" element={
+            <PrivateRoute>
+              <AddBook />
+            </PrivateRoute>
+          }/>
           <Route exact path='/events' element={<Event/>}></Route>
           <Route exact path='/bookshelf'element={<BookShelf/>}></Route>
           <Route exact path='/createevent' element={<CreateEvent/>}></Route>
