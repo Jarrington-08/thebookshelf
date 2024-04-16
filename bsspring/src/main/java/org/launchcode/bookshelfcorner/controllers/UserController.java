@@ -20,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.awt.print.Book;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -248,6 +250,18 @@ public class UserController {
             fileName += imageService.saveImageToStorage(uploadDirectory, profilePicture);
 
             //Need to delete existing picture here to enable updating (delete from disk and save new fileName)
+            String existingImageFileName = user.getProfilePictureFileName();
+            if (!existingImageFileName.isEmpty()) {
+
+//                Path uploadPath = Path.of(uploadDirectory);
+//                Path filePath = uploadPath.resolve(uniqueFileName);
+
+                Path uploadPath = Path.of(uploadDirectory);
+                Path filePath = uploadPath.resolve(existingImageFileName);
+
+                Files.delete(filePath);
+
+            }
             user.setProfilePictureFileName(fileName);
             userRepository.save(user);
             return "Profile Picture Updated";

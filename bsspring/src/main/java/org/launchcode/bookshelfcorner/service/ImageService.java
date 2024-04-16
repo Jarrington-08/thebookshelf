@@ -18,6 +18,7 @@ public class ImageService {
         Path uploadPath = Path.of(uploadDirectory);
         Path filePath = uploadPath.resolve(uniqueFileName);
 
+
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
