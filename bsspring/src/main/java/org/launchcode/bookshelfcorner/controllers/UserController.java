@@ -230,15 +230,15 @@ public class UserController {
     }
 
 
-    @PostMapping("/editProfilePicture/{userId}")
-    public String editProfilePicture(@PathVariable int userId, @RequestParam("profilePicture") MultipartFile profilePicture) throws IOException {
+    @PostMapping("/updateProfilePicture/{userId}")
+    public String updateProfilePicture(@PathVariable int userId, @RequestParam("profilePicture") MultipartFile profilePicture) throws IOException {
 
         Optional optUser = userRepository.findById(userId);
 
         if (optUser.isPresent()) {
             User user = (User) optUser.get();
-            String uploadDirectory = "src/main/resources/static/images";
-            //The following line is the absolute path for THIS computer (my laptop) but will not match my desktop. Need to find a way to work with both without issue
+            String uploadDirectory = "C:\\Users\\John\\Documents\\Code\\The BookShelf\\bsspring\\src\\main\\resources\\static\\images";
+            //Need to find a way to work with both computer file directories (if / else statment?)
             //laptop absolute path:
             //C:\Users\jarri\Documents\Code\thebookshelf\bsspring\src\main\java\org\launchcode\bookshelfcorner\resources\static\images
             //PC absolute path:
@@ -249,6 +249,7 @@ public class UserController {
 
             //Need to delete existing picture here to enable updating (delete from disk and save new fileName)
             user.setProfilePictureFileName(fileName);
+            userRepository.save(user);
             return "Profile Picture Updated";
         }
         return "User not found";
