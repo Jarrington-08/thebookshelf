@@ -133,7 +133,7 @@ export default function RegisterUser() {
                       <input type="submit" name="submit" class="btn btn-primary btn-block mb-4" value="Sign up"/>
                   </div>
                   <div>
-                    {isRegisterationFormSubmitted ? <p>Click <button onClick={onClickResendEmail}>here</button>to resend confirmation email</p> : null}
+                    {isRegisterationFormSubmitted ? <p>Click<button onClick={onClickResendEmail} class="border-0 text-primary">here</button>to resend confirmation email.</p> : null}
                   </div>
                   <p>
                     Already a member? Sign in <a href="/login">here!</a>
