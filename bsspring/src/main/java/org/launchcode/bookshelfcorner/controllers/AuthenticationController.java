@@ -2,6 +2,7 @@ package org.launchcode.bookshelfcorner.controllers;
 
 import jakarta.validation.Valid;
 
+import org.apache.coyote.Response;
 import org.launchcode.bookshelfcorner.models.ConfirmationToken;
 import org.launchcode.bookshelfcorner.repository.ConfirmationTokenRepository;
 import org.launchcode.bookshelfcorner.models.User;
@@ -59,6 +60,30 @@ public class AuthenticationController {
             emailService.sendEmail(mailMessage);
             return ResponseEntity.ok(new LoginResponseDTO(newUser.getId(), "Success"));
         }
+    }
+
+    //Need to test this. Email is not sending for some reason
+    @PostMapping("/resendConfirmationEmail/{userId}")
+    public ResponseEntity<?> resendConfirmationEmail(@PathVariable int userId) {
+
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if (optionalUser.isPresent()) {
+            User newUser = optionalUser.get();
+            ConfirmationToken confirmationToken = confirmationTokenRepository.findByUserId(userId);
+
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            mailMessage.setTo(newUser.getEmail());
+            mailMessage.setSubject("Complete Registration!");
+            mailMessage.setText("To confirm your account, please click here : "
+                    +"http://localhost:8080/confirm-account?token="+confirmationToken.getConfirmationToken());
+            emailService.sendEmail(mailMessage);
+            return ResponseEntity.ok( "Success");
+        }
+
+
+        return ResponseEntity.badRequest().body("User not found");
+
     }
 
     @PostMapping("/login")
