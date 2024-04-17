@@ -9,9 +9,6 @@ export default function Login() {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
-    window.sessionStorage.setItem("key", "AIzaSyD9ff8jAsbKpTfVfIAwdfBInX5AlgYMsWo");
-
-
     if (window.sessionStorage.getItem('loggedIn') === "true") {
       return <Navigate replace to="/profile" />
     }

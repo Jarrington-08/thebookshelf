@@ -52,7 +52,7 @@ export default function EditProfile() {
             body: newGenre.toString()
         })
         setGenres([...genres, {"id":null,"genreName":newGenre}]);
-        console.log(genres);
+        // console.log(genres);
         setNewGenre('');
         e.preventDefault();
     };
@@ -66,7 +66,7 @@ export default function EditProfile() {
             body: newFavoriteBook.toString()
         })
         setFavoriteBooks([...favoriteBooks, {"id":null,"user":null,"bookName":newFavoriteBook}]);
-        console.log(favoriteBooks);
+        // console.log(favoriteBooks);
         setNewFavoriteBook('');
         e.preventDefault();
     };
@@ -272,14 +272,14 @@ export default function EditProfile() {
                 <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body text-center">
-                            <img src={userProfilePicture ? userProfilePicture : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} alt="Profile Picture"
+                            <img src={userProfilePicture ? userProfilePicture : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} alt=""
                             class="rounded-circle img-fluid" style={width}></img>
                             <form onSubmit={handleSubmitPicFile}>
                                 <input type="file" id="picFile" name="filename" class="btn btn-secondary" onChange={handleChangePicFile}></input>
                                 <button type="submit" class="btn btn-secondary">Submit</button>
                                 <div>
                                     <p>New Picture Preview:</p>
-                                    <img src={picPreview} class="rounded-circle img-fluid"/>
+                                    <img src={picPreview} class="rounded-circle img-fluid" alt=""/>
                                 </div>
                             </form>
                             <h5 class="my-3">{username}</h5>
