@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 
@@ -8,10 +8,44 @@ export default function Login() {
 
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [isVerified, setIsVerified] = useState(true);
 
-    if (window.sessionStorage.getItem('loggedIn') === "true") {
-      return <Navigate replace to="/profile" />
-    }
+    
+
+    useEffect(() => {
+      const checkLogin = (e) => {
+        if (window.sessionStorage.getItem('loggedIn') === "true") {
+          return navigate("/profile")
+        }
+      };
+      const verifyUser = (e) => {
+        fetch("http://localhost:8080/verifyUser/"+sessionStorage.getItem("userId"), {
+          method: "GET"
+        })
+        .then((response) => response.text())
+        .then((data) => {
+          if (data === "false") {
+            setIsVerified(false);
+          }
+        })
+        console.log(isVerified);
+      };
+      verifyUser();
+      checkLogin();
+    },[])
+
+    const onClickResendEmail = (e) => {
+      e.preventDefault();
+      fetch("http://localhost:8080/resendConfirmationEmail/"+sessionStorage.getItem("userId"), {
+        method: "POST"
+      })
+      .then((response) => response.text())
+      .then((data) => {
+        return data;
+      })
+    };
+
+    
     
     const onSubmit = (e) => {
         e.preventDefault();
@@ -46,6 +80,7 @@ export default function Login() {
             } else {
               sessionStorage.setItem("userId", data.userId);
               sessionStorage.setItem("loggedIn", "true");
+              setIsVerified("true");
               navigate("/profile");
               return navigate(0);
             }
@@ -84,6 +119,9 @@ export default function Login() {
                 </div>
                   <div>
                     <input type="submit" name="submit" value="Sign in" class="btn btn-primary btn-block mb-4"/>
+                  </div>
+                  <div>
+                    {isVerified ? null : <p>Click<button onClick={onClickResendEmail} class="border-0 text-primary">here</button>to resend confirmation email.</p>}
                   </div>
                   <p>
                     Not a member of the BookShelf Corner? Sign up <a href="/register">here!</a>

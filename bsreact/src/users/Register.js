@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 
@@ -10,21 +10,9 @@ export default function RegisterUser() {
     const [passwordError, setPasswordError] = useState('');
     const [usernameError, setUsernameError] = useState('');
     const [verifyPasswordError, setVerifyPasswordError] = useState('');
-    const [isRegisterationFormSubmitted, setIsRegistrationFormSubmitted] = useState(false);
 
     if (window.sessionStorage.getItem('loggedIn') === "true") {
       return <Navigate replace to="/profile" />
-    }
-
-    const onClickResendEmail = (e) => {
-      e.preventDefault();
-      fetch("http://localhost:8080/resendConfirmationEmail/"+sessionStorage.getItem("userId"), {
-        method: "POST"
-      })
-      .then((response) => response.text())
-      .then((data) => {
-        return data;
-      })
     }
 
     const onSubmit = (e) => {
@@ -68,9 +56,8 @@ export default function RegisterUser() {
             } else {
               alert("You have succesfully registered. A verification email has been sent. Please click on the link to verify your acccount.");
               sessionStorage.setItem("userId", data.userId);
-              setIsRegistrationFormSubmitted(true);
-              // navigate("/login");
-              // return navigate(0);
+              navigate("/login");
+              return navigate(0);
             }
           })
           .catch((err) => err);
@@ -97,6 +84,7 @@ export default function RegisterUser() {
         e.preventDefault();
         setVerifyPasswordError('');
       }
+
     
       return (
         <body class="text-center bg">
@@ -131,9 +119,6 @@ export default function RegisterUser() {
                   </div>
                   <div>
                       <input type="submit" name="submit" class="btn btn-primary btn-block mb-4" value="Sign up"/>
-                  </div>
-                  <div>
-                    {isRegisterationFormSubmitted ? <p>Click<button onClick={onClickResendEmail} class="border-0 text-primary">here</button>to resend confirmation email.</p> : null}
                   </div>
                   <p>
                     Already a member? Sign in <a href="/login">here!</a>

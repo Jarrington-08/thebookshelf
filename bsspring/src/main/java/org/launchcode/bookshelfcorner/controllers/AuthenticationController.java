@@ -77,13 +77,26 @@ public class AuthenticationController {
             mailMessage.setSubject("Complete Registration!");
             mailMessage.setText("To confirm your account, please click here : "
                     +"http://localhost:8080/confirm-account?token="+confirmationToken.getConfirmationToken());
+//                    +"http://localhost:8080/confirm-account?token="+confirmationToken.getConfirmationToken());
             emailService.sendEmail(mailMessage);
             return ResponseEntity.ok( "Success");
+
         }
 
 
         return ResponseEntity.badRequest().body("User not found");
 
+    }
+
+    @GetMapping("/verifyUser/{userId}")
+    public Boolean verifyUser(@PathVariable int userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if (optionalUser.isPresent()) {
+            User newUser = optionalUser.get();
+            return newUser.isEnabled();
+        }
+        return null;
     }
 
     @PostMapping("/login")
