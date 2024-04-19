@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
+import UpdateProfilePicture from './UpdateProfilePicture';
 
 export default function EditProfile() {
 
@@ -26,8 +27,8 @@ export default function EditProfile() {
     const [location, setLocation] = useState('');
     const [newLocation, setNewLocation] = useState('');
     const [userProfilePicture, setUserProfilePicture] = useState('');
-    const [picFile, setPicFile] = useState();  
-    const [picPreview, setPicPreview] = useState();
+    const [isUpdateProfilePicture, setIsUpdateProfilePicture] = useState(false);
+    const [pictureFile, setPictureFile] = useState(); 
 
     
 
@@ -41,6 +42,10 @@ export default function EditProfile() {
         fetch("http://localhost:8080/deleteFavoriteBook/"+bookId, {method: "DELETE"});
         navigate("/editprofile");
         return navigate(0);
+    }
+
+    const onClickUpdateProfilePicture = (e) => {
+        setIsUpdateProfilePicture(true);
     }
 
     const handleSubmitGenre = (e) => {
@@ -122,25 +127,6 @@ export default function EditProfile() {
         setNewContactInfo('');
         e.preventDefault();
     };
-
-    const handleSubmitPicFile = (e) => {
-        //this may not be necessary
-        e.preventDefault();
-        var data = new FormData();
-        data.append('file', picFile)
-        fetch("http://localhost:8080/updateProfilePicture"+userId, {
-            method: "POST",
-            headers: {
-                "content-type": "multipart/form-data",
-            },
-            body: data
-        })
-    }
-
-    function handleChangePicFile(event) {
-        setPicFile(event.target.files[0]);
-        setPicPreview(URL.createObjectURL(event.target.files[0]));
-      }
 
     const handleInputChangeLocation = (e) => {
         setNewLocation(e.target.value);
@@ -274,14 +260,8 @@ export default function EditProfile() {
                         <div class="card-body text-center">
                             <img src={userProfilePicture ? userProfilePicture : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} alt=""
                             class="rounded-circle img-fluid" style={width}></img>
-                            <form onSubmit={handleSubmitPicFile}>
-                                <input type="file" id="picFile" name="filename" class="btn btn-secondary" onChange={handleChangePicFile}></input>
-                                <button type="submit" class="btn btn-secondary">Submit</button>
-                                <div>
-                                    <p>New Picture Preview:</p>
-                                    <img src={picPreview} class="rounded-circle img-fluid" alt=""/>
-                                </div>
-                            </form>
+                            <button onClick={onClickUpdateProfilePicture}>Update Profile Picture</button>
+                            {isUpdateProfilePicture ? UpdateProfilePicture : null}
                             <h5 class="my-3">{username}</h5>
                             <p class="mb-0">About me:</p><br />
                             <p class="text-muted mb-1">{aboutMe}</p><br />
