@@ -261,7 +261,7 @@ export default function EditProfile() {
                             <img src={userProfilePicture ? userProfilePicture : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} alt=""
                             class="rounded-circle img-fluid" style={width}></img>
                             <button onClick={onClickUpdateProfilePicture}>Update Profile Picture</button>
-                            {isUpdateProfilePicture ? UpdateProfilePicture : null}
+                            {isUpdateProfilePicture ? <UpdateProfilePicture></UpdateProfilePicture> : null}
                             <h5 class="my-3">{username}</h5>
                             <p class="mb-0">About me:</p><br />
                             <p class="text-muted mb-1">{aboutMe}</p><br />

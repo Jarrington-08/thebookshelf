@@ -5,6 +5,7 @@ export default function UpdateProfilePicture() {
     const userId = window.sessionStorage.getItem("userId");
     const [pictureFile, setPictureFile] = useState();  
     const [picturePreview, setPicturePreview] = useState();
+    const [isUpdateProfilePicture, setIsUpdateProfilePicture] = useState(false);
 
     function handleChangePicFile(event) {
         setPictureFile(event.target.files[0]);
@@ -23,6 +24,7 @@ export default function UpdateProfilePicture() {
             },
             body: data
         })
+        setIsUpdateProfilePicture(false);
     }
 
     return (
