@@ -28,8 +28,8 @@ export default function UpdateProfilePicture() {
     }
 
     return (
-        <form onSubmit={handleSubmitPictureFile}>
-            <input type="file" id="picFile" name="filename" class="btn btn-secondary" onChange={handleChangePicFile}></input>
+        <form class="form-control" onSubmit={handleSubmitPictureFile}>
+            <input type="file" id="picFile" name="filename" class="btn btn-secondary mb-2" onChange={handleChangePicFile}></input>
             <button type="submit" class="btn btn-secondary">Submit</button>
             <div>
                 <p>New Picture Preview:</p>
