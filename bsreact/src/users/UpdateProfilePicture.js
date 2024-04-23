@@ -5,7 +5,6 @@ export default function UpdateProfilePicture() {
     const userId = window.sessionStorage.getItem("userId");
     const [pictureFile, setPictureFile] = useState();  
     const [picturePreview, setPicturePreview] = useState();
-    const [isUpdateProfilePicture, setIsUpdateProfilePicture] = useState(false);
 
     function handleChangePicFile(event) {
         setPictureFile(event.target.files[0]);
@@ -16,20 +15,20 @@ export default function UpdateProfilePicture() {
         //this may not be necessary
         e.preventDefault();
         var data = new FormData();
-        data.append('file', pictureFile)
-        fetch("http://localhost:8080/updateProfilePicture"+userId, {
+        data.append('profilePicture', pictureFile);
+        fetch("http://localhost:8080/updateProfilePicture/"+userId, {
             method: "POST",
-            headers: {
-                "content-type": "multipart/form-data",
-            },
+            // headers: {
+            //     "content-type": "multipart/form-data; boundary=<calculated when request is sent>",
+            // },
             body: data
         })
-        setIsUpdateProfilePicture(false);
+        //return navigate to profile here
     }
 
     return (
         <form class="form-control" onSubmit={handleSubmitPictureFile}>
-            <input type="file" id="picFile" name="filename" class="btn btn-secondary mb-2" onChange={handleChangePicFile}></input>
+            <input type="file" id="pictureFile" name="pictureFile" class="btn btn-secondary mb-2" onChange={handleChangePicFile}></input>
             <button type="submit" class="btn btn-secondary">Submit</button>
             <div>
                 <p>New Picture Preview:</p>

@@ -28,7 +28,7 @@ export default function EditProfile() {
     const [newLocation, setNewLocation] = useState('');
     const [userProfilePicture, setUserProfilePicture] = useState('');
     const [isUpdateProfilePicture, setIsUpdateProfilePicture] = useState(false);
-    const [pictureFile, setPictureFile] = useState(); 
+    // const [pictureFile, setPictureFile] = useState(); 
 
     
 

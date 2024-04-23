@@ -237,6 +237,10 @@ public class UserController {
 
         Optional optUser = userRepository.findById(userId);
 
+        if (profilePicture.isEmpty()) {
+            return "Please select a file.";
+        }
+
         if (optUser.isPresent()) {
             User user = (User) optUser.get();
             String uploadDirectory = "C:\\Users\\John\\Documents\\Code\\The BookShelf\\bsspring\\src\\main\\resources\\static\\images";
@@ -251,7 +255,7 @@ public class UserController {
 
             //Need to delete existing picture here to enable updating (delete from disk and save new fileName)
             String existingImageFileName = user.getProfilePictureFileName();
-            if (!existingImageFileName.isEmpty()) {
+            if (existingImageFileName != null) {
 
 //                Path uploadPath = Path.of(uploadDirectory);
 //                Path filePath = uploadPath.resolve(uniqueFileName);
