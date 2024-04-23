@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+import { useNavigate } from "react-router-dom";
 
 export default function UpdateProfilePicture() {
 
     const userId = window.sessionStorage.getItem("userId");
+    const navigate = useNavigate();
     const [pictureFile, setPictureFile] = useState();  
     const [picturePreview, setPicturePreview] = useState();
+    
 
     function handleChangePicFile(event) {
         setPictureFile(event.target.files[0]);
@@ -23,7 +26,8 @@ export default function UpdateProfilePicture() {
             // },
             body: data
         })
-        //return navigate to profile here
+        navigate("/Profile");
+        return navigate(0);
     }
 
     return (
