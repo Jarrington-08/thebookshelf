@@ -274,8 +274,15 @@ public class UserController {
 
     }
 
+    @GetMapping("/getProfilePictureFileName/{userId}")
+    public String getProfilePictureFileName(@PathVariable int userId) {
+        Optional optUser = userRepository.findById(userId);
 
+        if (optUser.isPresent()) {
+            User user = (User) optUser.get();
 
-
+            return user.getProfilePictureFileName();
+        }
+        return "User not found";
+    }
 }
-

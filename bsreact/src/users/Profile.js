@@ -20,7 +20,8 @@ export default function Profile() {
     const [contactInfo, setContactInfo] = useState('');
     const [location, setLocation] = useState('');
     const [bookList, setBookList] = useState([]);
-    const [userProfilePicture, setUserProfilePicture] = useState('');  
+    const [profilePictureFileName, setProfilePictureFileName] = useState('');
+    const [profilePicturePath, setProfilePicturePath] = useState('http://localhost:8080/images/');
 
     function deleteUserCopy(userCopyId) {
         fetch("http://localhost:8080/deleteUserCopy"+userCopyId, {
@@ -38,6 +39,21 @@ export default function Profile() {
 
 
     useEffect(() => {
+
+        const fetchProfilePicture = async () => {
+            await fetch("http://localhost:8080/getProfilePictureFileName/"+userId, {
+            method: "GET",
+            headers: {
+                "content-type": "text/plain"
+            },
+            })
+            .then((response) => response.text())
+            .then((data) =>  {
+            setProfilePictureFileName(data);
+            setProfilePicturePath(profilePicturePath + profilePictureFileName)
+            })
+            .catch((error) => error);
+        };
 
         const fetchUsername = async () => {
             await fetch("http://localhost:8080/getUsername/"+userId, {
@@ -146,7 +162,8 @@ export default function Profile() {
         fetchUsername();
         fetchGenres();
         fetchBookList();
-    },[userId]);
+        fetchProfilePicture();
+    },[userId,profilePictureFileName]);
 
     window.sessionStorage.setItem("username", username);
 
@@ -158,7 +175,7 @@ export default function Profile() {
                     <div class="col-lg-4">
                         <div class="card mb-4">
                             <div class="card-body text-center">
-                                <img src={userProfilePicture ? userProfilePicture : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} alt="Profile Picture"
+                                <img src={profilePicturePath !== 'http://localhost:8080/images/' ? profilePicturePath : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"} alt="Profile Picture"
                                 class="rounded-circle img-fluid" style={width}></img>
                                 <h5 class="my-3">{username}</h5>
                                 <p class="mb-0">About me:</p><br />
